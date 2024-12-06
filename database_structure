@@ -1,0 +1,147 @@
+Forum Database Structure
+1. users Table
+Stores user information for authentication and profiles.
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+2. threads Table
+Represents forum threads created by users.
+
+CREATE TABLE threads (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+3. posts Table
+Stores comments or replies in threads.
+
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    thread_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL,
+    FOREIGN KEY (thread_id) REFERENCES threads(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+4. Optional: categories Table
+If you want threads grouped by categories.
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+5. Optional: thread_categories Table
+For a many-to-many relationship between threads and categories.
+
+CREATE TABLE thread_categories (
+    thread_id INT NOT NULL,
+    category_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (thread_id, category_id),
+    FOREIGN KEY (thread_id) REFERENCES threads(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+);
+
+
+1. Schema Update:
+Table for Top Posts (Featured Posts)
+
+    CREATE TABLE top_posts (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,  -- Title of the post
+        link VARCHAR(255) NOT NULL,   -- URL of the external post
+        description TEXT,             -- Optional description of the post
+        status BOOLEAN DEFAULT TRUE,  -- Is the post active or not?
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- When the post was added
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   -- When the post was last updated
+        deleted_at TIMESTAMP NULL
+    );
+
+    CREATE TABLE featured_posts (
+        id SERIAL PRIMARY KEY,
+        post_id INT NOT NULL REFERENCES top_posts(id), -- Link to the top_posts table
+        thread_id INT REFERENCES threads(id), -- Link to the threads table (optional)
+        status BOOLEAN DEFAULT TRUE, -- Whether the featured post is active
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- When the post was featured
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+
+
+
+
+
+
+        CREATE TABLE forum.featured_threads (
+            id SERIAL PRIMARY KEY,
+            thread_id INT REFERENCES forum.threads(id), -- Link to the threads table (optional)
+            title VARCHAR(255) NOT NULL,  -- Title of the post
+            content TEXT,             -- Optional description of the post
+            status BOOLEAN DEFAULT TRUE, -- Whether the featured post is active
+            link VARCHAR(255) NOT NULL,   -- URL of the external post
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- When the post was featured
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Database Visual Diagram
+The relationships between tables are as follows:
+
+    - users to threads: One-to-many (a user can create multiple threads).
+    - users to posts: One-to-many (a user can create multiple posts).
+    - threads to posts: One-to-many (a thread can have many posts).
+    - categories to threads: Many-to-many (optional if you add categories).
+
+
+    Adding Indexes to the tables
+  -- Index for the email column
+  CREATE INDEX idx_users_email ON forum.users(email);
+  -- Index for the username column
+  CREATE INDEX idx_users_username ON forum.users(username);
+  -- Index for the role column
+  CREATE INDEX idx_users_role ON forum.users(role);
+  -- Composite index for email and role columns
+  CREATE INDEX idx_users_email_role ON forum.users(email, role);
+  -- Index for the status column
+  CREATE INDEX idx_users_status ON forum.users(status);  
