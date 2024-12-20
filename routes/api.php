@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\FeaturedThreadController;
-use App\Http\Controllers\CommentController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -40,9 +39,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Create a Thread
     Route::post('/thread', [ThreadController::class, 'createThread']);
 
-    // Store a comment
-    Route::post('/comments', [CommentController::class, 'store']);
+    // Store a posts (comment to thread)
+    Route::post('/posts', [PostController::class, 'store']);
 
-    // Delete a comment
-    Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
+    // Delete a posts (comment to thread)
+    Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 });

@@ -12,8 +12,8 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Raleway",  sans-serif;
+  --default-font: "Lato", Arial, "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Lato", Arial, sans-serif, "Raleway";
   --nav-font: "Poppins",  sans-serif;
 }
 
@@ -202,6 +202,12 @@ h6 {
     padding: 6px 15px;
   }
 
+  .nav-wrapper {
+    flex-grow: 1; /* Allow this container to take remaining space */
+    display: flex;
+    justify-content: center; /* Center the navigation */
+  }
+
   .header .navmenu {
     order: 3;
   }
@@ -228,6 +234,12 @@ h6 {
 --------------------------------------------------------------*/
 /* Navmenu - Desktop */
 @media (min-width: 1200px) {
+  .nav-wrapper {
+    flex-grow: 1; /* Allow this container to take remaining space */
+    display: flex;
+    justify-content: center; /* Center the navigation */
+  }
+
   .navmenu {
     padding: 0;
   }
@@ -342,6 +354,12 @@ h6 {
     margin-right: 10px;
     cursor: pointer;
     transition: color 0.3s;
+  }
+
+  .nav-wrapper {
+    flex-grow: 1; /* Allow this container to take remaining space */
+    display: flex;
+    justify-content: center; /* Center the navigation */
   }
 
   .navmenu {
@@ -860,6 +878,7 @@ section,
   font-size: 56px;
   font-weight: 700;
   font-family: var(--nav-font);
+  color: var(--default-color);
 }
 
 .hero h2 span {
@@ -955,6 +974,8 @@ section,
   margin-bottom: 0;
 }
 
+
+
 /*--------------------------------------------------------------
 # Clients Section
 --------------------------------------------------------------*/
@@ -1035,6 +1056,7 @@ section,
 .features .mt-5 {
   margin-top: 1rem !important;
 }
+
 
 /*--------------------------------------------------------------
 # Services Section
@@ -1470,6 +1492,164 @@ section,
   opacity: 1;
   bottom: 15px;
 }
+
+
+/*--------------------------------------------------------------
+# A-Service Section
+--------------------------------------------------------------*/
+.aservice .container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.aservice .row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.aservice .col-lg-3,
+.aservice .col-md-6 {
+  flex: 1 1 250px;
+  max-width: 100%;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aservice .list-img {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Ensure the images and text are responsive */
+.aservice .list-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.aservice .aservice-list {
+  overflow: hidden;
+  border-radius: 5px;
+  height: 100%;
+}
+
+.aservice .aservice-list .list-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.aservice .aservice-list .social {
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  right: 0;
+  opacity: 0;
+  transition: ease-in-out 0.3s;
+  text-align: center;
+}
+
+.aservice .aservice-list .social a {
+  background: color-mix(in srgb, var(--contrast-color), transparent 25%);
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  margin: 0 3px;
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  transition: ease-in-out 0.3s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aservice .aservice-list .social a:hover {
+  color: var(--contrast-color);
+  background: var(--accent-color);
+}
+
+.aservice .aservice-list .social i {
+  font-size: 18px;
+  line-height: 0;
+}
+
+/* Ensure anchor covers entire block */
+.aservice .info-link {
+  display: block; /* Make the anchor a block element */
+  text-decoration: none; /* Remove underline */
+  position: relative; /* For child element positioning */
+  overflow: hidden; /* Clip any child overflow */
+  transition: transform 0.3s ease; /* Add a zoom effect */
+}
+
+/* Hover effect for the entire block */
+.aservice .info-link:hover {
+  transform: scale(1.03); /* Slight zoom effect on hover */
+}
+
+/* Style for text inside the block */
+.aservice .list-info {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  color: white;
+  font-size: 30px;
+  font-family: var(--nav-font);
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+/* Text hover effect */
+.aservice .info-link:hover .list-info {
+  color: var(--nav-hover-color);
+}
+
+/* Image inside the block */
+.aservice .list-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Zoom effect for the image on hover */
+.aservice .info-link:hover img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .aservice .list-info {
+    font-size: 18px;
+    padding: 5px;
+  }
+}
+
+.aservice .aservice-list .list-info h4 {
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.aservice .aservice-list .list-info span {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+}
+
+.aservice .aservice-list:hover .social {
+  opacity: 1;
+  bottom: 15px;
+}
+
 
 /*--------------------------------------------------------------
 # Contact Section

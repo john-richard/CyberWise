@@ -35,8 +35,16 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        if ($request->hasFile('avatar')) {
+            $mimeType = $request->file('avatar')->getMimeType();
+            \Log::info('Uploaded File MIME Type: ' . $mimeType);
+        } else {
+            \Log::error('No file was uploaded.');
+        }
+
+
         try {
-            $response = $this->authService->register($request->all());
+            $response = $this->authService->register($request->all(), $request);
             if (isset($response['error'])) {
                 return response()->json($response, 401);
             }

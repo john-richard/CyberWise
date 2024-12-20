@@ -3,6 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Thread;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
+use DB;
 
 class ThreadRepository
 {
@@ -16,21 +19,64 @@ class ThreadRepository
             ->get();
     }
 
-    // public function getThreads($condition, $limit = 5)
-    // {
-    //     // Fetch the featured posts with the required conditions and limit the selected fields for featured_posts, top_posts, and thread
-    //     return Thread::with(['thread' => function($query) {
-    //             $query->select('id', 'title'); // Select only the needed columns from threads
-    //         }, 'topPost' => function($query) {
-    //             $query->select('id', 'title', 'link', 'description','created_at','updated_at'); // Select only the needed columns from top_posts
-    //         }])
-    //         ->whereHas('topPost', function ($query) {
-    //             $query->where('status', true)
-    //                   ->whereNull('deleted_at');
-    //         })
-    //         ->where($condition)
-    //         ->orderBy('created_at', 'desc')
-    //         ->limit($limit)
-    //         ->get(['id', 'top_post_id', 'thread_id']); // Select only the columns needed from featured_posts
-    // }
+    /**
+     * Get threads with dynamic filters and pagination.
+     *
+     * @param int $excludedCategoryId
+     * @param int $perPage
+     * @param array $filters
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getThreadsWithFilters(int $excludedCategoryId, int $perPage = 20, array $filters = [])
+    {
+        // Start building the query
+        $query = DB::table('threads')
+            ->join('thread_categories', 'threads.id', '=', 'thread_categories.thread_id')
+            ->join('categories', 'thread_categories.category_id', '=', 'categories.id')
+            ->join('users', 'threads.user_id', '=', 'users.id')
+            ->where('threads.status', true)
+            ->where('categories.id', '!=', $excludedCategoryId);
+
+        // Apply sorting filters
+        if (!empty($filters['sortBy'])) {
+            switch ($filters['sortBy']) {
+                case 'latest':
+                    $query->orderBy('threads.created_at', 'desc');
+                    break;
+
+                case 'closed':
+                    $query->where('threads.closed', true);
+                    break;
+
+                default:
+                    $query->orderBy('threads.created_at', 'desc'); // Default to latest
+                    break;
+            }
+        }
+
+        // Add select fields
+        $query->select(
+            'threads.id as thread_id',
+            'threads.title',
+            'threads.content',
+            'threads.created_at',
+            'threads.updated_at',
+            'users.id as user_id',
+            'users.username',
+            'users.avatar',
+            'categories.id as category_id',
+            'categories.name as category_name'
+        );
+
+        // Paginate the results
+        $threads = $query->paginate($perPage);
+
+        // Add human-readable relative time to each thread
+        foreach ($threads as $thread) {
+            $thread->time_ago = Carbon::parse($thread->created_at)->diffForHumans();
+        }
+
+        return $threads;
+    }
+
 }

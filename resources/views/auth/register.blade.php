@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Service Details - Gp Bootstrap Template</title>
+  <title>Cyberwise | Register</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -45,117 +45,103 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
-<body class="service-details-page">
+<body class="index-page">
 
-  <header id="header" class="header d-flex align-items-center position-relative">
+  <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+      <a href="/" class="logo d-flex align-items-center me-auto me-lg-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">GP</h1>
+        <h1 class="sitename">CW</h1>
         <span>.</span>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero">Home<br></a></li>
+          <li><a href="#hero" class="active">Home<br></a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#features">Features</a></li>
           <li><a href="#team">Team</a></li>
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
           <li><a href="#contact">Contact</a></li>
+
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
-      <!-- <a class="btn-getstarted" href="index.html#about">Get Started</a> -->
-      <div style="border:none;" class="btn-getstarted" ></div>
-
+      <div></div>
     </div>
   </header>
 
   <main class="main">
 
     <!-- Hero Section -->
-    <section style="min-height: auto; padding: 50px 0 50px 0;" id="hero" class="hero section dark-background">
-      <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
+    <section id="hero" class="hero section dark-background">
+
+      <img src="{{ asset('assets/img/hero-bg.jpg') }}" alt="" data-aos="fade-in">
+
       <div class="container">
 
         <div class="row justify-content-center text-center" data-aos="fade-up" data-aos-delay="100">
           <div class="col-xl-6 col-lg-8">
-            <h2 style="color: #fff;">CyberWise<span>.</span></h2>
+            <h2>CyberWise<span>.</span></h2>
             <p>Building a safer, smarter online community</p>
+            <a class="btn-join" href="{{ route('community') }}" id="joinCommunityBtn">Join our community</a>
           </div>
         </div>
-
       </div>
-
     </section><!-- /Hero Section -->
 
     <!-- Service Details Section -->
-    <section class="ftco-section">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-md-12 col-lg-10">
-						<div class="wrap d-md-flex">
-							<div class="img" style="background-image: url(assets/img/bg-1.jpg);"></div>
-              <div class="login-wrap p-4 p-md-5">
-                <div class="d-flex">
-                  <div class="w-100">
-                    <h3 class="mb-4">Sign In</h3>
-                  </div>
-                  <div class="w-100">
-                    <p class="social-media d-flex justify-content-end">
-                      <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
-                      <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
-                    </p>
-                  </div>
-                </div>
-                <!--div id="error-message" class="text-danger mt-2"></div-->
-                <div style="display: none;" id="error-message" class="oaerror danger"></div>
-                <form  id="registerForm" class="signin-form" method="POST" action="{{ route('register') }}">
-                  @csrf
-                  <div class="form-group mb-3">
-                    <label class="label" for="name">Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Username" required>
-                  </div>
-				  <div class="form-group mb-3">
-                    <label class="label" for="name">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Username" required>
-                  </div>
-                  <div class="form-group mb-3">
-                    <label class="label" for="password">Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Password" required>
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign Up</button>
-                  </div>
+<!-- Service Details Section -->
+<section id="user-register" class="ftco-section">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-12 col-lg-10">
+				<div class="wrap d-md-flex">
+					<div class="img" style="background-image: url('{{ asset('assets/img/bg-1.jpg') }}');"></div>
+					<div class="login-wrap p-4 p-md-5">
+						<div class="d-flex">
+							<div class="w-100">
+								<h3 class="mb-4">Sign In</h3>
+							</div>
+							<div class="w-100">
+								<p class="social-media d-flex justify-content-end">
+									<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
+									<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
+								</p>
+							</div>
+						</div>
+						<!--div id="error-message" class="text-danger mt-2"></div-->
+						<div style="display: none;" id="error-message" class="oaerror danger"></div>
+						<form id="registerForm" class="signin-form" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+							@csrf
+							<div class="form-group mb-3">
+								<label class="label" for="name">Username</label>
+								<input type="text" name="username" class="form-control" placeholder="Username" required>
+							</div>
+							<div class="form-group mb-3">
+								<label class="label" for="email">Email</label>
+								<input type="email" name="email" class="form-control" placeholder="Email" required>
+							</div>
+							<div class="form-group mb-3">
+								<label class="label" for="password">Password</label>
+								<input type="password" name="password" class="form-control" placeholder="Password" required>
+							</div>
+							<div class="form-group mb-3">
+								<label class="label" for="avatar">Upload Avatar</label>
+								<input type="file" name="avatar" class="form-control" accept="image/*">
+							</div>
+							<div class="form-group">
+								<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign Up</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
   </main>
 

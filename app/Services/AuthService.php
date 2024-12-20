@@ -21,6 +21,53 @@ class AuthService
         $this->userRepo = $userRepo;
     }
 
+    public function register(array $data)
+    {
+        // Validation
+        $validator = Validator::make($data, [
+            'username' => 'required|string|max:100|unique:users',
+            'email' => 'required|email|max:100|unique:users',
+            'password' => [
+                'required',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate avatar file
+        ]);
+    
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+    
+        // Handle file upload
+        $avatarPath = null;
+        if (isset($data['avatar'])) {
+            $avatarPath = $data['avatar']->store('assets/img/avatar', 'public'); // Save in public/assets/img/avatar
+        }
+    
+        // Create the user
+        $user = User::create([
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role' => 2, // User role
+            'avatar' => $avatarPath, // Save avatar path in the database
+        ]);
+    
+        // Generate Bearer Token for the newly created user
+        $token = $user->createToken('API Token')->plainTextToken;
+    
+        return [
+            'token' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user,
+            'redirect_url' => '/',
+        ];
+    }    
+
     public function login(array $data)
     {
         // Validation
@@ -67,47 +114,7 @@ class AuthService
     {
         $user->tokens()->delete();
         return ['message' => 'Logged out successfully'];
-    }
-
-    public function register(array $data)
-    {
-        // Validation
-        $validator = Validator::make($data, [
-            'username' => 'required|string|max:100|unique:users',
-            'email' => 'required|email|max:100|unique:users',
-            'password' => [
-                'required',
-                Password::min(8) // Minimum length of 8 characters
-                    ->mixedCase()  // Requires both upper and lower case
-                    ->numbers()    // Requires a number
-                    ->symbols()    // Requires a symbol
-                    ->uncompromised()  // Prevent using compromised passwords
-            ],
-        ]);
-    
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
-        }
-    
-        // Create the user
-        $user = User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => 2, // user role
-        ]);
-    
-        // Generate Bearer Token for the newly created user
-        $token = $user->createToken('API Token')->plainTextToken;
-    
-        // Return the response with the user data, token, and redirect URL
-        return [
-            'token' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user,
-            'redirect_url' => '/',
-        ];
-    }
+    }    
 
     public function resetPassword(array $data)
     {

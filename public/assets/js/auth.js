@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Add Axios interceptor to handle 419 errors globally
+    axios.interceptors.response.use(
+        response => response,
+        error => {
+            if (error.response?.status === 419) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('user');
+                window.location.href = '/login';
+            }
+            return Promise.reject(error);
+        }
+    );
+
     const form = document.getElementById('loginForm');
     const errorMessage = document.getElementById('error-message');
     const greeting = document.getElementById('greeting');  // Element to show the username
@@ -10,6 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData(form);
 
         try {
+            // Retrieve the CSRF cookie before making the login request
+            await axios.get('/sanctum/csrf-cookie');
+
+            // Make the login request
             const response = await axios.post('/api/login', {
                 username: formData.get('username'),
                 password: formData.get('password'),

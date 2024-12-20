@@ -7,25 +7,22 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
 
+        // Use FormData to handle file uploads correctly
         const formData = new FormData(form);
 
         try {
-            const response = await axios.post('/api/register', {
-                username: formData.get('username'),
-                email: formData.get('email'),
-                password: formData.get('password'),
+            const response = await axios.post('/api/register', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Ensure proper Content-Type
+                },
             });
 
             // Clear the error message and hide it on successful registration
             errorMessage.textContent = ''; // Clear error text
             errorMessage.style.display = 'none'; // Hide error message
 
-alert(response.data.token);
-
             // Save the token to local storage
             localStorage.setItem('authToken', response.data.token);
-
-            alert(response.data.user.username);
 
             // Save the user info to local storage
             localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -43,7 +40,10 @@ alert(response.data.token);
             // Redirect to the appropriate page
             window.location.href = response.data.redirect_url;
         } catch (error) {
-            errorMessage.textContent = error.response?.data?.error || 'An error occurred.';
+            // Display detailed error messages for debugging
+            const errorData = error.response?.data || {};
+            console.error('Error Response:', errorData);
+            errorMessage.textContent = errorData.error || 'An error occurred.';
             errorMessage.style.display = 'block';
         }
     });

@@ -33,19 +33,12 @@ class ThreadController extends Controller
         return response()->json(['message' => 'Threads added successfully', 'threads' => $threads], 201);
     }
 
-    // public function updateFeaturedPost(Request $request, $id)
-    // {
-    //     // Call the service to update the featured post
-    //     $post = $this->postService->updateFeaturedPost($id, $request->all());
+    public function updateThread(Request $request, $id)
+    {
+        // Call the service to add a threads
+        $threads = $this->threadService->updateThread($id, $request->all());
 
-    //     return response()->json(['message' => 'Post updated successfully', 'post' => $post]);
-    // }
+        return response()->json(['message' => 'Threads added successfully', 'threads' => $threads], 201);
+    }
 
-    // public function deleteFeaturedPost($id)
-    // {
-    //     // Call the service to deactivate (soft delete) the featured post
-    //     $this->postService->deactivateFeaturedPost($id);
-
-    //     return response()->json(['message' => 'Post deactivated successfully']);
-    // }
 }

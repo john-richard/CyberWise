@@ -1,0 +1,82 @@
+ - Install PHP 8.3.6 (required)
+ - Enable extensions in php.ini
+    - extension=openssl
+    - extension=curl
+    - extension=fileinfo
+ - Point ext directory (optional: if composer install does not work)
+   - Example: extension_dir = "E:/Users/John Richard/php8.3.6/ext"
+ - cd /path/to/php8.3.6
+   - To verify openssl: ./php -m | grep openssl
+   - Donwload composer: curl -sS https://getcomposer.org/installer | ./php
+   - Install composer: ./php composer.phar --version
+   - Rename composer: mv composer.phar composer
+ - cd /path/to/project: Example: cd CyberWise
+   - Create Laravel Project: /path/to/php8.3.6/php /path/to/php8.3.6/composer create-project laravel/laravel:^10.0 .
+   - Install Dependencies: ../php8.3.6/php ../php8.3.6/composer install
+
+
+
+
+Running Laravel on local
+ - Enable extensions in php.ini
+    - extension=pgsql
+    - extension=pdo_pgsql
+ - Start Local: php artisan serve
+ - Install Apache Server in PHP 8.3.6 folder
+    - Update: E:/Users/John Richard/php8.3.6/Apache24/conf/httpd.conf
+      # Load PHP module
+      LoadModule php_module "E:/Users/John Richard/php8.3.6/php8apache2_4.dll"
+      # Specify the PHP configuration directory
+      PHPIniDir "E:/Users/John Richard/php8.3.6"
+      # Define PHP file handling
+      AddType application/x-httpd-php .php
+      AddType application/x-httpd-php-source .phps
+      # Set index.php as a default document
+      DirectoryIndex index.php index.html
+    - Update SRVROOT: ServerRoot "E:/Users/John Richard/php8.3.6/Apache24"
+    - Add ServerName: ServerName localhost:80
+    - * Intall Apache: httpd8 -k install -n "Apache2.4"
+    - Restart and test Apache
+      - httpd8 -k restart
+      - Access to browser: http://localhost/
+
+
+Note to setup the following:
+  - vim ~/.bashrc
+      alias psql17='"C:/Program Files/PostgreSQL/17/bin/psql.exe"'
+      alias php8='"E:\Users\John Richard\php8.3.6\php.exe"'
+      alias httpd8='"E:\Users\John Richard\php8.3.6\Apache24\bin\httpd.exe"'
+  - source ~/.bashrc
+
+
+User Authentication
+  - Remove composer lock: rm -rf vendor composer.lock
+  - Enable extensions in php.ini
+    - extension=sodium
+  - Re-install composer packages: php8 ../php8.3.6/composer install
+  - Install Laravel Passport: php8 ../php8.3.6/composer require laravel/passport -vvv
+
+ Implement Laravel Fortify for login, registration, reset password, and generating a Bearer token after authentication to secure parts of your app.
+  - composer require laravel/fortify
+  - php artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
+  - php artisan migrate
+
+
+
+API List
+  GET http://127.0.0.1:8000/api/admin/users - Admin get users
+  POST http://127.0.0.1:8000/api/admin/users - Admin create users
+    {"username":"johndoe","email":"johndoe@mailinator.com","password":"password123","first_name":"John","last_name":"Doe","role":1}
+  GET http://127.0.0.1:8000/api/admin/users/{id} - Admin get user by ID
+  PUT http://127.0.0.1:8000/api/admin/users/{id} - Admin update user by ID
+    {"username":"johndee","email":"johndee@mailinator.com","password":"Password123","first_name":"Jan","last_name":"Dee","role":2}
+  DELETE http://127.0.0.1:8000/api/admin/users/{id} - Admin delete user by ID
+
+
+  - Features Post / Top Post
+  POST http://127.0.0.1:8000/api/admin/featured-posts
+    {"title":"One of the Best Post I Have Seen!","link":"https://oneofthebestpost.com","description":"This is a sample description for the featured post - one of the best."}
+
+
+
+

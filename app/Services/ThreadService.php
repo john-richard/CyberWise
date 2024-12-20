@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Category;
 use App\Models\Thread;
 use App\Repositories\ThreadRepository;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,19 @@ class ThreadService
     public function __construct(ThreadRepository $threadRepository)
     {
         $this->threadRepository = $threadRepository;
+    }
+
+    /**
+     * Get threads excluding a specific category with dynamic filters.
+     *
+     * @param int $excludedCategoryId
+     * @param int $perPage
+     * @param array $filters
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getThreadsWithFilters(int $excludedCategoryId, int $perPage = 20, array $filters = [])
+    {
+        return $this->threadRepository->getThreadsWithFilters($excludedCategoryId, $perPage, $filters);
     }
 
     /**
@@ -84,11 +98,15 @@ class ThreadService
                 'limit' => 'nullable|integer|min:1|max:100'
             ],
             'create' => [
+                'category_id' => 'required|integer|exists:categories,id',
                 'title' => 'required|string|max:255',
+                'content' => 'required|string',
                 'user_id' => 'required|integer'
             ],
             'update' => [
+                'category_id' => 'required|integer|exists:categories,id',
                 'title' => 'required|string|max:255',
+                'content' => 'required|string',
                 'user_id' => 'required|integer'
             ]
         ];
