@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
 
+    protected $casts = [
+        'views' => 'array', 
+    ];
+
     protected $fillable = [
         'title',
         'user_id',

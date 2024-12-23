@@ -49,17 +49,8 @@
         <h1 class="sitename">CW</h1>
         <span>.</span>
       </a>
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active">Home<br></a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#team">Team</a></li>
-          <li><a href="#contact">Contact</a></li>
 
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
+      <x-navigation />
 
       <div style="display: none;" id="greeting"></div>
       <a class="btn-getstarted" href="{{ route('login') }}#user-login" id="joinCommunityBtn">Login</a>
@@ -80,7 +71,7 @@
           <div class="col-xl-6 col-lg-8">
             <h2>CyberWise<span>.</span></h2>
             <p>Building a safer, smarter online community</p>
-            <a class="btn-join" href="{{ route('community') }}" id="joinCommunityBtn">Join our community</a>
+            <a class="btn-join" href="{{ route('community') }}#posts" id="joinCommunityBtn">Join our community</a>
           </div>
           
         </div>
@@ -338,7 +329,7 @@
               <i class="bi bi-geo-alt flex-shrink-0"></i>
               <div>
                 <h3>Address</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
+                <p>San Antonio, Santo Tomas, Batangas, PH 4234</p>
               </div>
             </div><!-- End Info Item -->
 
@@ -346,7 +337,7 @@
               <i class="bi bi-telephone flex-shrink-0"></i>
               <div>
                 <h3>Call Us</h3>
-                <p>+1 5589 55488 55</p>
+                <p>+63 998 884 3247</p>
               </div>
             </div><!-- End Info Item -->
 
@@ -400,74 +391,7 @@
 
   </main>
 
-  <footer id="footer" class="footer dark-background">
-
-    <div class="footer-top">
-      <div class="container">
-        <div class="row gy-4">
-          <div class="col-lg-4 col-md-6 footer-about">
-            <a href="index.html" class="logo d-flex align-items-center">
-              <span class="sitename">CW</span>
-            </a>
-            <div class="footer-contact pt-3">
-              <p>A108 Adam Street</p>
-              <p>New York, NY 535022</p>
-              <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-              <p><strong>Email:</strong> <span>info@example.com</span></p>
-            </div>
-            <div class="social-links d-flex mt-4">
-              <a href=""><i class="bi bi-twitter-x"></i></a>
-              <a href=""><i class="bi bi-facebook"></i></a>
-              <a href=""><i class="bi bi-instagram"></i></a>
-              <a href=""><i class="bi bi-linkedin"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-md-3 footer-links">
-            <h4>Useful Links</h4>
-            <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Home</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> About us</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Services</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Terms of service</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Privacy policy</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-2 col-md-3 footer-links">
-            <h4>Our Services</h4>
-            <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Web Design</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Web Development</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Product Management</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Marketing</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Graphic Design</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-4 col-md-12 footer-newsletter">
-            <h4>Our Newsletter</h4>
-            <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-            <form action="forms/newsletter.php" method="post" class="php-email-form">
-              <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your subscription request has been sent. Thank you!</div>
-            </form>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="copyright">
-      <div class="container text-center">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">CW</strong> <span>All Rights Reserved</span></p>
-
-      </div>
-    </div>
-
-  </footer>
+  <x-footer />
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

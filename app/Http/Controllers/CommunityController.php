@@ -28,11 +28,15 @@ class CommunityController extends Controller
     public function index(Request $request)
     {
         $excludedCategoryId = 6; // Example category to exclude (featured post)
-        $perPage = $request->get('per_page', 10); // Default per-page value
-        $filters = $request->only(['sortBy']); // Capture filters (e.g., sortBy)
+        $perPage = $request->get('per_page', 5); // Default per-page value
+
+        $filters = [
+            'sortBy' => $request->query('sortBy', 'latest'), // Default to 'latest'
+        ];
+
 
         $threads = $this->threadService->getThreadsWithFilters($excludedCategoryId, $perPage, $filters);
 
-        return view('community', compact('threads'));
+        return view('community', compact('threads', 'filters'));
     }
 }
