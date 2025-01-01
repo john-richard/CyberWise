@@ -90,7 +90,7 @@
                   <div class="inner-sidebar">
                       <!-- Inner sidebar header -->
                       <div class="inner-sidebar-header justify-content-center">
-                          <button style="font-size: 14px;" class="btn btn-primary has-icon btn-block" type="button" data-toggle="modal" data-target="#threadModal">
+                          <button target="_blank" onclick="window.location.href='{{ route('thread') }}#posts';" style="font-size: 14px;" class="btn btn-primary has-icon btn-block" type="button" data-toggle="modal" data-target="#threadModal">
                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus mr-2">
                                   <line x1="12" y1="5" x2="12" y2="19"></line>
                                   <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -156,7 +156,9 @@
                                     <div class="media forum-item">
                                         <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="{{ asset('storage/' . $thread->avatar) }}" class="mr-3 rounded-circle" width="50" alt="User" /></a>
                                         <div class="media-body">
-                                            <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body">{{ $thread->title }}</a></h6>
+                                            <h6>
+                                                <a target="_blank" data-toggle="collapse" data-target=".forum-content" href="{{ route('show-thread', ['id' => $thread->thread_id, 'thread_name' => $thread->thread_name]) }}#posts" class="text-body">{{ $thread->title }}</a>
+                                            </h6>
                                             <p class="text-secondary">
                                               {{ $thread->content }}
                                             </p>
@@ -164,7 +166,7 @@
                                         </div>
                                         <div class="text-muted small text-center align-self-center">
                                             <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> {{ $thread->views }}</span>
-                                            <span class="comment-btn" data-thread-id="{{ $thread->thread_id }}"><i class="far fa-comment ml-2"></i> 3</span>
+                                            <span class="comment-btn" data-thread-id="{{ $thread->thread_id }}"><i class="far fa-comment ml-2"></i> {{ $thread->replies }}</span>
                                         </div>
                                     </div>
                                 </div>

@@ -4,8 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PostController;
+
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\FeaturedThreadController;
 
 Route::post('register', [AuthController::class, 'register']);
@@ -37,11 +38,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     // Create a Thread
-    Route::post('/thread', [ThreadController::class, 'createThread']);
+    Route::post('/thread', [ThreadController::class, 'createThread'])->name('create-thread');
 
     // Store a posts (comment to thread)
-    Route::post('/posts', [PostController::class, 'store']);
+    Route::post('/thread/{id}/post', [PostController::class, 'store']);
 
-    // Delete a posts (comment to thread)
-    Route::delete('/posts/{id}', [PostController::class, 'destroy']);
+    // Delete a posts (comment to thread) - not yet
+    Route::delete('/thread/{id}/post', [PostController::class, 'destroy']);
+
 });

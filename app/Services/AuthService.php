@@ -105,8 +105,6 @@ class AuthService
             'redirect_url' => $redirectUrl,  // Include redirect URL in the response
         ];
         
-        \Log::info("RESPONSE >>>>>> ". print_r($response, 1));
-
         return $response;
     }
 

@@ -12,6 +12,7 @@ class Thread extends Model
     ];
 
     protected $fillable = [
+        'id',
         'title',
         'user_id',
         'status',
@@ -33,14 +34,6 @@ class Thread extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Relationship with comments.
-     */
-    public function comments()
-    {
-        return $this->hasMany(Post::class);
     }
 
     public function featuredThreads()

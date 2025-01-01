@@ -86,7 +86,7 @@
         <div class="row gy-4">
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
             <div class="aservice-list">
-              <a href="#" class="info-link">
+              <a href="/#features" class="info-link">
                 <div class="list-img">
                   <div class="list-info">What's<br>New</div>
                   <img src="{{ asset('assets/img/about/service-1.png') }}" class="img-fluid" alt="">
@@ -97,7 +97,7 @@
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
             <div class="aservice-list">
-              <a href="#" class="info-link">
+              <a href="{{ route('community') }}#posts" class="info-link">
                 <div class="list-img">
                   <div class="list-info">Talk<br>Space</div>
                   <img src="{{ asset('assets/img/about/service-2.png') }}" class="img-fluid" alt="">

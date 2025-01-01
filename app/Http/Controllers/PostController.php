@@ -17,21 +17,23 @@ class PostController extends Controller
     // Store posts for authenticated users
     public function store(Request $request)
     {
-        $request->validate([
-            'thread_id' => 'required|string',
-            'content' => 'required|string',
-        ]);
+        try {
+            if (!auth()->check()) {
+                \Log::info('User is not authenticated');
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            $threadId = $request->route('id');
 
-        $posts = $this->postService->storePost([
-            'thread_id' => $request->thread_id,
-            'user_id' => $request->user()->id,
-            'content' => $request->post,
-        ]);
+            $response = $this->postService->storePost($threadId, $request->all());
+    
+            if (isset($response['error'])) {
+                return response()->json($response, 401);
+            }
+            return response()->json($response, 200);
 
-        return response()->json([
-            'message' => 'Post added successfully',
-            'data' => $posts,
-        ], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     // Delete posts for authenticated users

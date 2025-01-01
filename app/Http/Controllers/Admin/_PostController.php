@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class _PostController extends Controller
 {
     protected $postService;
 

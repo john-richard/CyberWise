@@ -30,6 +30,10 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $response = $this->authService->logout($request->user());
+        
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return response()->json($response);
     }
 

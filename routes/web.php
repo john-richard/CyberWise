@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\ThreadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,11 @@ Route::get('/register', function () {
 })->name('register');
 
 Route::get('/community', [CommunityController::class, 'index'])->name('community');
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Thread
+    Route::get('/thread', [ThreadController::class, 'index'])->name('thread');
+
+    // Thread View
+    Route::get('/thread/{id}/{thread_name}', [ThreadController::class, 'showThread'])->name('show-thread');
+});

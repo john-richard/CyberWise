@@ -27,7 +27,6 @@ class CommunityController extends Controller
      */
     public function index(Request $request)
     {
-        $excludedCategoryId = 6; // Example category to exclude (featured post)
         $perPage = $request->get('per_page', 5); // Default per-page value
 
         $filters = [
@@ -35,7 +34,7 @@ class CommunityController extends Controller
         ];
 
 
-        $threads = $this->threadService->getThreadsWithFilters($excludedCategoryId, $perPage, $filters);
+        $threads = $this->threadService->getThreadsWithFilters($perPage, $filters);
 
         return view('community', compact('threads', 'filters'));
     }

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
+    protected $redirectTo = '/login#user-login';
+
     /**
      * The path to your application's "home" route.
      *
