@@ -40,6 +40,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Create a Thread
     Route::post('/thread', [ThreadController::class, 'createThread'])->name('create-thread');
 
+    // Update a Thread
+    Route::post('/thread/{id}', [ThreadController::class, 'updateThread'])->name('update-thread');
+
     // Store a posts (comment to thread)
     Route::post('/thread/{id}/post', [PostController::class, 'store']);
 
