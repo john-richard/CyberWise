@@ -18,28 +18,26 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        // Extract the Bearer token from the Authorization header
+        // Check for session authentication
+        $user = Auth::user();
+        if ($user && $user->role === 1) {
+            return $next($request);
+        }
+    
+        // Check for Bearer token in API-style requests
         $authHeader = $request->header('Authorization');
-        if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-
-        $token = substr($authHeader, 7); // Remove 'Bearer ' prefix
-
-        try {
-            // Decode and validate the token using Laravel Sanctum
-            $user = Auth::guard('sanctum')->user();
-
-            if (!$user || $user->role !== 1) {
-                return response()->json(['message' => 'Unauthorized'], 401);
+        if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
+            $token = substr($authHeader, 7); // Remove 'Bearer ' prefix
+            try {
+                $user = Auth::guard('sanctum')->user();
+                if ($user && $user->role === 1) {
+                    return $next($request);
+                }
+            } catch (\Exception $e) {
+                // Token invalid or error occurred
             }
-
-            // Optionally log the username for debugging
-            \Log::info('Admin Authenticated:', ['username' => $user->username]);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Unauthorized'], 401);
         }
-
-        return $next($request);
+    
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
 }

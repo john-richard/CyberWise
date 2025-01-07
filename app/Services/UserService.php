@@ -3,15 +3,30 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class UserService
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+
     public function getAllUsers()
     {
         // Get all users
         return User::all();
+    }
+
+    public function getUsersWithFilter(int $perPage = 20, array $filters = [])
+    {
+        // Get all users w/ filter
+        return $this->userRepository->getUsersWithFilters($perPage, $filters);
     }
 
     public function createUser($request)

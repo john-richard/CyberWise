@@ -73,6 +73,8 @@ class ThreadRepository
             'threads.title',
             'threads.content',
             'threads.created_at',
+            'threads.status',
+            DB::raw("TO_CHAR(threads.created_at, 'Mon DD, YYYY') as created_date"),
             'threads.updated_at',
             'threads.views as views_data',
             'users.id as user_id',
@@ -104,7 +106,6 @@ class ThreadRepository
             
             $thread->replies = $count;
         }
-        \Log::info("TH >> " . print_r($threads, 1));
         
         return $threads;
     }

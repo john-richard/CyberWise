@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +37,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Thread View
     Route::get('/thread/{id}/{thread_name}', [ThreadController::class, 'showThread'])->name('show-thread');
+});
+
+Route::middleware(['admin.auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Add other admin routes here
 });
