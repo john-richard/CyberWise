@@ -41,5 +41,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::middleware(['admin.auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    // Add other admin routes here
+
+    // Admin get featured thread
+    Route::get('/admin/featured-thread', [DashboardController::class, 'getFeaturedThreads'])->name('admin.featured-thread');   
+
+    // Admin get threads
+    Route::get('/admin/threads', [DashboardController::class, 'getThreads'])->name('admin.threads');       
 });

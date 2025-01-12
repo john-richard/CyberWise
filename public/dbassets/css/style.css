@@ -13431,6 +13431,10 @@ a.text-dark:hover, a.text-dark:focus {
     content: "\f044";
 }
 
+.fa-trash-can:before {
+    content: "\f2ed";
+}
+
 .fa-eject:before {
     content: "\f052";
 }

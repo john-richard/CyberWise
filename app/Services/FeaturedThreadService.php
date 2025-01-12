@@ -39,21 +39,24 @@ class FeaturedThreadService
             return [];
         }
 
+\Log::info("LIM >>> " . $data['limit']);
+
         // Fetch threads and their featured threads
         $threads = $category->threads()
             ->where('status', true) // Threads with status = true
             ->with(['featuredThreads' => function ($query) {
                 $query->where('status', true); // Featured threads with status = true
             }])
-            ->get();
+            ->paginate($data['limit']);
 
-        // Transform result into the desired format
-        $result = $threads->map(function ($thread) {
+        // Transform paginated result into the desired format
+        $result = $threads->getCollection()->map(function ($thread) {
             return [
                 'title' => $thread->title,
                 'user_id' => $thread->user_id,
                 'featuredThreads' => $thread->featuredThreads->map(function ($featuredThread) {
                     return [
+                        'id' => $featuredThread->id,
                         'title' => $featuredThread->title,
                         'content' => $featuredThread->content,
                         'status' => $featuredThread->status,
@@ -63,7 +66,18 @@ class FeaturedThreadService
             ];
         });
 
-        return $result;
+        // Include pagination metadata
+        return [
+            'data' => $result,
+            'pagination' => [
+                'total' => $threads->total(),
+                'per_page' => $threads->perPage(),
+                'current_page' => $threads->currentPage(),
+                'last_page' => $threads->lastPage(),
+                'next_page_url' => $threads->nextPageUrl(),
+                'prev_page_url' => $threads->previousPageUrl(),
+            ],
+        ];
     }
     
     /**

@@ -102,7 +102,7 @@
 					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Threads</span></a>
 					</li>
                     <li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-trending-up"></i></span><span class="pcoded-mtext">Featured</span></a>
+					    <a href="{{ route('admin.featured-thread') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-trending-up"></i></span><span class="pcoded-mtext">Featured</span></a>
 					</li>
 
                     <li class="nav-item pcoded-menu-caption">
@@ -651,16 +651,16 @@
     <!-- [ Main Content ] end -->
 
     <!-- Required Js -->
-    <script src="dbassets/js/vendor-all.min.js"></script>
-    <script src="dbassets/js/plugins/bootstrap.min.js"></script>
-    <script src="dbassets/js/pcoded.min.js"></script>
+    <script src="{{ asset('dbassets/js/vendor-all.min.js') }}"></script>
+    <script src="{{ asset('dbassets/js/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('dbassets/js/pcoded.min.js') }}"></script>
 
     <!-- Apex Chart -->
-    <script src="dbassets/js/plugins/apexcharts.min.js"></script>
+    <script src="{{ asset('dbassets/js/plugins/apexcharts.min.js') }}"></script>
 
 
     <!-- custom-chart js -->
-    <script src="dbassets/js/pages/dashboard-main.js"></script>
+    <script src="{{ asset('dbassets/js/pages/dashboard-main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
