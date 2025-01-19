@@ -108,6 +108,9 @@
                     <li class="nav-item pcoded-menu-caption">
 						<label>Knowledge Challenge</label>
 					</li>
+                    <li class="nav-item">
+					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Learning Hub</span></a>
+					</li>
 					<li class="nav-item">
 					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">General Trivia</span></a>
 					</li>
@@ -522,29 +525,22 @@
                                     </thead>
                                     <tbody>
 
-                                    @if($featuredThreads->isEmpty())
+                                    @if(!$featuredThreads)
                                         <tr>
-                                            <td>No user available</td>
+                                            <td>No featured thread available</td>
                                         </tr>
                                     @else
-                                        @foreach ($featuredThreads as $ft)
-                                            @if(!empty($ft['featuredThreads']) && $ft['featuredThreads']->isNotEmpty())
-                                                @foreach($ft['featuredThreads'] as $index => $featuredThread)
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-inline-block align-middle">
-                                                            <div class="d-inline-block">
-                                                                <h6 style="font-weight: bold;">{{ $featuredThread['title'] }}</h6>
-                                                                <a href="{{ $featuredThread['link'] }}" class="learn-more-link">Learn More</a>
-                                                            </div>
+                                        @foreach ($featuredThreads['featuredThreads'] as $featuredThread)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-inline-block align-middle">
+                                                        <div class="d-inline-block">
+                                                            <h6 style="font-weight: bold;">{{ $featuredThread['title'] }}</h6>
+                                                            <a href="{{ $featuredThread['link'] }}" class="learn-more-link">Learn More</a>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                                
-                                                @endforeach
-                                            @else
-                                                <p>No featured threads available at this time.</p>
-                                            @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     @endif
                                     </tbody>

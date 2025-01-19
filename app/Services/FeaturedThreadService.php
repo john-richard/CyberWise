@@ -39,8 +39,6 @@ class FeaturedThreadService
             return [];
         }
 
-\Log::info("LIM >>> " . $data['limit']);
-
         // Fetch threads and their featured threads
         $threads = $category->threads()
             ->where('status', true) // Threads with status = true
@@ -50,7 +48,7 @@ class FeaturedThreadService
             ->paginate($data['limit']);
 
         // Transform paginated result into the desired format
-        $result = $threads->getCollection()->map(function ($thread) {
+        $result = $threads->map(function ($thread) {
             return [
                 'title' => $thread->title,
                 'user_id' => $thread->user_id,
@@ -62,13 +60,13 @@ class FeaturedThreadService
                         'status' => $featuredThread->status,
                         'link' => $featuredThread->link,
                     ];
-                }),
+                })->toArray(),
             ];
-        });
+        })->toArray();
 
         // Include pagination metadata
         return [
-            'data' => $result,
+            'data' => $result[0],
             'pagination' => [
                 'total' => $threads->total(),
                 'per_page' => $threads->perPage(),

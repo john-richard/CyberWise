@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $perPage = 5; // Default per-page value
 
         $featuredThreads = $this->featuredThreadService->getFeaturedThreads([ 'limit' => $perPage ]);
-
+        \Log::info(" featuredThreads !!>>> " . print_r($featuredThreads['data']['featuredThreads'], 1));
         
         $filters = [
             'sortBy' => ['sortBy', 'latest'], // Default to 'latest'
@@ -50,7 +50,12 @@ class DashboardController extends Controller
         // get users
         $users = $this->userService->getUsersWithFilter($perPage, $filters);
 
-        return view('dashboard', compact('user', 'featuredThreads', 'users', 'threads'));
+        return view('dashboard', [
+            'user' => $user, 
+            'featuredThreads' => $featuredThreads['data'], 
+            'users' => $users, 
+            'threads' => $threads
+        ]);
     }
 
     public function getFeaturedThreads(Request $request)
@@ -64,9 +69,6 @@ class DashboardController extends Controller
 
         $perPage = 3; // Default per-page value
         $featuredThreads = $this->featuredThreadService->getFeaturedThreads([ 'limit' => $perPage ]);
-
-        \Log::info(" featuredThreads >>> " . print_r($featuredThreads, 1));
-
 
         // Return the view with paginated threads
         return view('admin.featured-thread', [

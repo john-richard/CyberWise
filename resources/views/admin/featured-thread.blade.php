@@ -108,6 +108,9 @@
                     <li class="nav-item pcoded-menu-caption">
 						<label>Knowledge Challenge</label>
 					</li>
+                    <li class="nav-item">
+					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Learning Hub</span></a>
+					</li>
 					<li class="nav-item">
 					    <a href="{{ route('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">General Trivia</span></a>
 					</li>
@@ -294,68 +297,66 @@
                                     </thead>
                                     <tbody>
 
-                                    @if($featuredThreads->isEmpty())
+                                    @if(!$featuredThreads)
                                         <tr>
                                             <td colspan="5">No featured thread available</td>
                                         </tr>
                                     @else
-                                        @foreach ($featuredThreads as $ft)
-                                            @if(!empty($ft['featuredThreads']) && $ft['featuredThreads']->isNotEmpty())
-                                                @foreach($ft['featuredThreads'] as $index => $featuredThread)
+                                        @if(!empty($featuredThreads['featuredThreads']) && $featuredThreads['featuredThreads'])
+                                            @foreach($featuredThreads['featuredThreads'] as $index => $featuredThread)
 
-                                                <tr>
-                                                    <td>
-                                                        <div class="chk-option">
-                                                            <label class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
-                                                                <input type="checkbox" class="custom-control-input">
-                                                                <span class="custom-control-label"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="d-inline-block align-middle">
-                                                            <div class="d-inline-block">
-                                                                <h6><a href="{{ $featuredThread['link'] }}" class="learn-more-link">{{ $featuredThread['title'] }}</a></h6>
-                                                                <p 
-                                                                    data-bs-toggle="tooltip" 
-                                                                    data-bs-placement="top" 
-                                                                    title="{{ $featuredThread['content'] }}">
-                                                                    {{ Str::limit($featuredThread['content'] , 100, '...') }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                    {!! $featuredThread['status'] 
-                                                        ? '<strong style="color: #29b765;">Active</strong>' 
-                                                        : '<strong style="color: #e74c3c;">Inactive</strong>' !!}
-                                                    </td>
-                                                    <td class="text-right">
-                                                    <div class="text-muted small text-center align-self-center">
-                                                        <span class="d-none d-sm-inline-block"><a href="{{ route('dashboard') }}"><i class="far fa-edit text-c-yellow"></i></a></span>
-                                                        <span class="comment-btn" data-thread-id="{{ $featuredThread['id'] }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
+                                            <tr>
+                                                <td>
+                                                    <div class="chk-option">
+                                                        <label class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
+                                                            <input type="checkbox" class="custom-control-input">
+                                                            <span class="custom-control-label"></span>
+                                                        </label>
                                                     </div>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                                {{-- Pagination Links --}}
-                                                <tr>
-                                                    <td colspan="5">
-                                                        <div class="pagination">
-                                                            @if($pagination['prev_page_url'])
-                                                                <a href="{{ url()->current() . '?page=' . ($pagination['current_page'] - 1) }}" class="btn btn-primary">Previous</a>
-                                                            @endif
-
-                                                            <span>Page {{ $pagination['current_page'] }} of {{ $pagination['last_page'] }}</span>
-
-                                                            @if($pagination['next_page_url'])
-                                                                <a href="{{ url()->current() . '?page=' . ($pagination['current_page'] + 1) }}" class="btn btn-primary">Next</a>
-                                                            @endif
+                                                    <div class="d-inline-block align-middle">
+                                                        <div class="d-inline-block">
+                                                            <h6><a href="{{ $featuredThread['link'] }}" class="learn-more-link">{{ $featuredThread['title'] }}</a></h6>
+                                                            <p 
+                                                                data-bs-toggle="tooltip" 
+                                                                data-bs-placement="top" 
+                                                                title="{{ $featuredThread['content'] }}">
+                                                                {{ Str::limit($featuredThread['content'] , 100, '...') }}
+                                                            </p>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                            @else
-                                                <p>No featured threads available at this time.</p>
-                                            @endif
-                                        @endforeach
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                {!! $featuredThread['status'] 
+                                                    ? '<strong style="color: #29b765;">Active</strong>' 
+                                                    : '<strong style="color: #e74c3c;">Inactive</strong>' !!}
+                                                </td>
+                                                <td class="text-right">
+                                                <div class="text-muted small text-center align-self-center">
+                                                    <span class="d-none d-sm-inline-block"><a href="{{ route('dashboard') }}"><i class="far fa-edit text-c-yellow"></i></a></span>
+                                                    <span class="comment-btn" data-thread-id="{{ $featuredThread['id'] }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
+                                                </div>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            {{-- Pagination Links --}}
+                                            <tr>
+                                                <td colspan="5">
+                                                    <div class="pagination">
+                                                        @if($pagination['prev_page_url'])
+                                                            <a href="{{ url()->current() . '?page=' . ($pagination['current_page'] - 1) }}" class="btn btn-primary">Previous</a>
+                                                        @endif
+
+                                                        <span>Page {{ $pagination['current_page'] }} of {{ $pagination['last_page'] }}</span>
+
+                                                        @if($pagination['next_page_url'])
+                                                            <a href="{{ url()->current() . '?page=' . ($pagination['current_page'] + 1) }}" class="btn btn-primary">Next</a>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <p>No featured threads available at this time.</p>
+                                        @endif
                                     @endif
                                     </tbody>
                                 </table>

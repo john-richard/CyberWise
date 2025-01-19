@@ -108,6 +108,9 @@
                     <li class="nav-item pcoded-menu-caption">
 						<label>Knowledge Challenge</label>
 					</li>
+                    <li class="nav-item">
+					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Learning Hub</span></a>
+					</li>
 					<li class="nav-item">
 					    <a href="{{ route('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">General Trivia</span></a>
 					</li>

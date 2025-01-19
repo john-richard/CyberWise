@@ -189,33 +189,31 @@
                 $icons = ['bi-robot', 'bi-shield-slash', 'bi-fingerprint', 'bi-broadcast', 'bi-cloud-check'];
             @endphp
 
-            @foreach($featuredThreads as $thread)
-                <h3>{{ $thread['title'] }}</h3>
+              <h3>{{ $featuredThreads['title'] }}</h3>
 
-                @if(!empty($thread['featuredThreads']) && $thread['featuredThreads']->isNotEmpty())
-                    @php
-                        // Calculate the total number of featured threads
-                        $totalThreads = count($thread['featuredThreads']);
-                    @endphp
+              @if(!empty($featuredThreads['featuredThreads']) && $featuredThreads['featuredThreads'])
+                  @php
+                      // Calculate the total number of featured threads
+                      $totalThreads = count($featuredThreads['featuredThreads']);
+                  @endphp
 
-                    @foreach($thread['featuredThreads'] as $index => $featuredThread)
-                      <div class="features-item d-flex ps-0 ps-lg-3 pt-4 pt-lg-0 @if($index > 0 ) mt-5 @endif" data-aos="fade-up" data-aos-delay="200">
-                            <i class="bi {{ $icons[$loop->index % count($icons)] }} flex-shrink-0"></i>
-                            <div>
-                                <h4>{{ $featuredThread['title'] }}</h4>
-                                <p>
-                                    {{ $featuredThread['content'] }}
-                                    @if(!empty($featuredThread['link']))
-                                        <a href="{{ $featuredThread['link'] }}" class="learn-more-link">Learn More</a>
-                                    @endif
-                                </p>
-                            </div>
-                        </div>
-                    @endforeach
-                @else
-                    <p>No featured threads available at this time.</p>
-                @endif
-            @endforeach
+                  @foreach($featuredThreads['featuredThreads'] as $index => $featuredThread)
+                    <div class="features-item d-flex ps-0 ps-lg-3 pt-4 pt-lg-0 @if($index > 0 ) mt-5 @endif" data-aos="fade-up" data-aos-delay="200">
+                          <i class="bi {{ $icons[$loop->index % count($icons)] }} flex-shrink-0"></i>
+                          <div>
+                              <h4>{{ $featuredThread['title'] }}</h4>
+                              <p>
+                                  {{ $featuredThread['content'] }}
+                                  @if(!empty($featuredThread['link']))
+                                      <a href="{{ $featuredThread['link'] }}" class="learn-more-link">Learn More</a>
+                                  @endif
+                              </p>
+                          </div>
+                      </div>
+                  @endforeach
+              @else
+                  <p>No featured threads available at this time.</p>
+              @endif
         </div>
       </div>
     </section><!-- /Features Section -->
@@ -245,66 +243,11 @@
                 </div>
               </div>
               <div class="member-info">
-                <h4>Walter White</h4>
+                <h4>Romeo Fajilan Jr.</h4>
                 <span>Chief Executive Officer</span>
               </div>
             </div>
           </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{{ asset('assets/img/team/team-2.jpg') }}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Product Manager</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{{ asset('assets/img/team/team-3.jpg') }}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{{ asset('assets/img/team/team-4.jpg') }}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Amanda Jepson</h4>
-                <span>Accountant</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
         </div>
 
       </div>
