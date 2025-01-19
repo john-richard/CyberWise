@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Cyberwise Featured Thread | Build a Safer and Smarter Online Community</title>
+    <title>Cyberwise Dashboard | Build a Safer and Smarter Online Community</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -101,7 +101,7 @@
 					<li class="nav-item">
 					    <a href="{{ route('admin.threads') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Threads</span></a>
 					</li>
-                    <li class="nav-item pcoded-trigger">
+                    <li class="nav-item">
 					    <a href="{{ route('admin.featured-thread') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-trending-up"></i></span><span class="pcoded-mtext">Featured</span></a>
 					</li>
 
@@ -112,13 +112,13 @@
 					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Learning Hub</span></a>
 					</li>
 					<li class="nav-item">
-					    <a href="{{ route('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">General Trivia</span></a>
+					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">General Trivia</span></a>
 					</li>
                     <li class="nav-item">
-					    <a href="{{ route('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-cloud-lightning"></i></span><span class="pcoded-mtext">Brain Teasers</span></a>
+					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-cloud-lightning"></i></span><span class="pcoded-mtext">Brain Teasers</span></a>
 					</li>
                     <li class="nav-item">
-					    <a href="{{ route('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Topic Mastery</span></a>
+					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Topic Mastery</span></a>
 					</li>                    
 				</ul>
 				
@@ -246,11 +246,13 @@
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="page-header-title">
-                                <h5 class="m-b-10">Featured Thread</h5>
+                                <h5 class="m-b-10">Community Members</h5>
                             </div>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="feather icon-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="#!">Featured Thread</a></li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('admin.users', ['type' => $type]) }}">{{ ucwords($type) }}</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -259,10 +261,12 @@
             <!-- [ breadcrumb ] end -->
             <!-- [ Main Content ] start -->
             <div class="row">
+
+                <!-- prject ,team member start -->
                 <div class="col-xl-12 col-md-12">
                     <div class="card table-card">
                         <div class="card-header">
-                            <h5>Featured Thread</h5>
+                            <h5>Users</h5>
                             <div class="card-header-right">
                                 <div class="btn-group card-option">
                                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -289,74 +293,53 @@
                                                         <span class="custom-control-label"></span>
                                                     </label>
                                                 </div>
-                                                Title
+                                                Username
                                             </th>
                                             <th>Status</th>
+                                            <th>Date Created</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
-                                    @if(!$featuredThreads)
+                                    @if($users->isEmpty())
                                         <tr>
-                                            <td colspan="5">No featured thread available</td>
+                                            <td colspan="5">No user available</td>
                                         </tr>
                                     @else
-                                        @if(!empty($featuredThreads['featuredThreads']) && $featuredThreads['featuredThreads'])
-                                            @foreach($featuredThreads['featuredThreads'] as $index => $featuredThread)
-
-                                            <tr>
-                                                <td>
-                                                    <div class="chk-option">
-                                                        <label class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
-                                                            <input type="checkbox" class="custom-control-input">
-                                                            <span class="custom-control-label"></span>
-                                                        </label>
+                                        @foreach ($users as $usr)
+                                        <tr>
+                                            <td>
+                                                <div class="chk-option">
+                                                    <label class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
+                                                        <input type="checkbox" class="custom-control-input">
+                                                        <span class="custom-control-label"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="d-inline-block align-middle">
+                                                    <img src="{{ asset('storage/' . $usr->avatar) }}" alt="user image" class="img-radius wid-40 align-top m-r-15">
+                                                    <div class="d-inline-block">
+                                                        <h6>{{ $usr->username }}</h6>
+                                                        <p class="text-muted m-b-0">{{ $usr->role === 1 ? 'Admin' : 'Member' }}</p>
                                                     </div>
-                                                    <div class="d-inline-block align-middle">
-                                                        <div class="d-inline-block">
-                                                            <h6><a href="{{ $featuredThread['link'] }}" class="learn-more-link">{{ $featuredThread['title'] }}</a></h6>
-                                                            <p 
-                                                                data-bs-toggle="tooltip" 
-                                                                data-bs-placement="top" 
-                                                                title="{{ $featuredThread['content'] }}">
-                                                                {{ Str::limit($featuredThread['content'] , 100, '...') }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                {!! $featuredThread['status'] 
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {!! $usr->status === 1 
                                                     ? '<strong style="color: #29b765;">Active</strong>' 
                                                     : '<strong style="color: #e74c3c;">Inactive</strong>' !!}
-                                                </td>
-                                                <td class="text-right">
-                                                <div class="text-muted small text-center align-self-center">
+                                            </td>
+                                            <td>{{ $usr->created_date }}</td>
+                                            <td class="text-right">
+                                                <div class="text-muted small text-right">
                                                     <span class="d-none d-sm-inline-block"><a href="{{ route('dashboard') }}"><i class="far fa-edit text-c-yellow"></i></a></span>
-                                                    <span class="comment-btn" data-thread-id="{{ $featuredThread['id'] }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
+                                                    <span class="comment-btn" data-user-id="{{ $usr->user_id }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
                                                 </div>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            {{-- Pagination Links --}}
-                                            <tr>
-                                                <td colspan="5">
-                                                    <div class="pagination">
-                                                        @if($pagination['prev_page_url'])
-                                                            <a href="{{ url()->current() . '?page=' . ($pagination['current_page'] - 1) }}" class="btn btn-primary">Previous</a>
-                                                        @endif
-
-                                                        <span>Page {{ $pagination['current_page'] }} of {{ $pagination['last_page'] }}</span>
-
-                                                        @if($pagination['next_page_url'])
-                                                            <a href="{{ url()->current() . '?page=' . ($pagination['current_page'] + 1) }}" class="btn btn-primary">Next</a>
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @else
-                                            <p>No featured threads available at this time.</p>
-                                        @endif
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td colspan="4"> {{ $users->links() }} </td>
+                                        </tr>
                                     @endif
                                     </tbody>
                                 </table>
@@ -364,14 +347,12 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- prject ,team member start -->
             </div>
             <!-- [ Main Content ] end -->
         </div>
     </div>
     <!-- [ Main Content ] end -->
-
-    <!-- Required Js -->
 
     <!-- Required Js -->
     <script src="{{ asset('dbassets/js/vendor-all.min.js') }}"></script>

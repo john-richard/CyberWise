@@ -89,10 +89,10 @@
 						<label>Users</label>
 					</li>
 					<li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-server"></i></span><span class="pcoded-mtext">Admin</span></a>
+					    <a href="{{ route('admin.users') }}?type=admin" class="nav-link "><span class="pcoded-micon"><i class="feather icon-server"></i></span><span class="pcoded-mtext">Admin</span></a>
 					</li>
                     <li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Member</span></a>
+					    <a href="{{ route('admin.users') }}?type=member" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Member</span></a>
 					</li>
 
                     <li class="nav-item pcoded-menu-caption">
@@ -132,12 +132,12 @@
 			
 				<div class="m-header">
 					<a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
-					<a href="#!" class="b-brand">
+					<a href="{{ route('home') }}" class="b-brand">
 						<!-- ========   change your logo hear   ============ -->
 						<img src="{{ asset('assets/img/logo.png') }}" alt="" class="logo">
 						<img src="{{ asset('assets/img/logo-icon.png') }}" alt="" class="logo-thumb">
 					</a>
-					<a href="#!" class="mob-toggler">
+					<a href="{{ route('home') }}" class="mob-toggler">
 						<i class="feather icon-more-vertical"></i>
 					</a>
 				</div>

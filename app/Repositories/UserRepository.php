@@ -30,7 +30,7 @@ class UserRepository
                 case 'latest':
                     $query->orderBy('created_at', 'desc');
                     break;
-
+    
                 case 'active':
                     $query->where('status', 1);
                     break;
@@ -38,11 +38,16 @@ class UserRepository
                 case 'inactive':
                     $query->where('status', 0);
                     break;
-
+    
                 default:
                     $query->orderBy('created_at', 'desc'); // Default to latest
                     break;
             }
+        }
+    
+        // Apply dynamic conditions from $filters['where']
+        if (!empty($filters['where']) && is_array($filters['where'])) {
+            $query->where($filters['where']);
         }
     
         // Add select fields
@@ -59,10 +64,10 @@ class UserRepository
     
         // Paginate results
         $users = $query->paginate($perPage);
-        
+    
         return $users;
     }
-
+    
     public function findByEmail($email)
     {
         return User::where('email', $email)->first();

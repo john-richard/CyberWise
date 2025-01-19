@@ -104,4 +104,41 @@ class DashboardController extends Controller
             'filters' => $filters
         ]);
     }
+
+    public function getUsers(Request $request)
+    {
+
+        $user = Auth::user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        $type = $request->query('type', '');
+
+        $perPage = $request->get('per_page', 10); // Default per-page value
+
+        $filters = [
+            'sortBy' => ['sortBy', 'latest'], // Default to 'latest'
+            'where' => []
+        ];
+
+        // identify user type filtering
+        if ($type === 'admin') {
+            $filters['where']['users.role'] = 1; // Role 1 for admin users
+        } elseif ($type === 'member') {
+            $filters['where']['users.role'] = 2; // Role 2 for regular users
+        }
+
+        // get users
+        $users = $this->userService->getUsersWithFilter($perPage, $filters);
+
+        return view('admin.users', [
+            'user' => $user, 
+            'users' => $users,
+            'type' => $type
+        ]);
+    }
+
 }

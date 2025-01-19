@@ -47,4 +47,7 @@ Route::middleware(['admin.auth'])->group(function () {
 
     // Admin get threads
     Route::get('/admin/threads', [DashboardController::class, 'getThreads'])->name('admin.threads');       
+
+    // Admin get users
+    Route::get('/admin/users', [DashboardController::class, 'getUsers'])->name('admin.users');     
 });
