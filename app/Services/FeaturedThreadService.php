@@ -230,14 +230,19 @@ class FeaturedThreadService
         }
 
         // Find the thread by ID and update it
-        $thread->update([
+        $payload = [
             'thread_id' => $categoryThreads->thread_id,
             'title' => $data['hubTitle'],
             'content' => $data['hubContent'],
             'link' => $data['hubLink']
-        ]);
+        ];
+        
+        $thread->update($payload);
 
-        return $thread;
+        return [
+            'data' => $thread,
+            'redirect_url' => '/admin/learning-hub',
+        ];
     }
 
     /**
@@ -265,6 +270,13 @@ class FeaturedThreadService
                 'user_id' => 'required|integer'
             ],
             'create-hub' => [
+                'hubCategory' => 'required|exists:categories,id',  // Ensure the category exists
+                'hubTitle' => 'required|string|max:255',
+                'hubContent' => 'nullable|string',
+                'hubLink' => 'nullable|url'
+            ],
+            
+            'update-hub' => [
                 'hubCategory' => 'required|exists:categories,id',  // Ensure the category exists
                 'hubTitle' => 'required|string|max:255',
                 'hubContent' => 'nullable|string',

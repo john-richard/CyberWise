@@ -64,8 +64,11 @@ class FeaturedThreadController extends Controller
     public function updateLearningHub(Request $request, $id)
     {
         // Call the service to add a threads
-        $threads = $this->featuredThreadService->updateLearningHub($id, $request->all());
+        $response = $this->featuredThreadService->updateLearningHub($id, $request->all());
 
-        return response()->json(['message' => 'Featured threads updated successfully', 'threads' => $threads], 201);
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
     }
 }

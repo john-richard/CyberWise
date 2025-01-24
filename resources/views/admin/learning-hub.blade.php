@@ -394,7 +394,18 @@
                                                 </td>
                                                 <td class="text-right">
                                                 <div class="text-muted small text-center align-self-center">
-                                                    <span class="d-none d-sm-inline-block"><a href="{{ route('dashboard') }}"><i class="far fa-edit text-c-yellow"></i></a></span>
+                                                    <span class="d-none d-sm-inline-block">
+                                                        <a 
+                                                        data-whatever="@getbootstrap"
+                                                        data-toggle="modal" 
+                                                        data-target="#addNewModal" 
+                                                        data-thread-id="{{ $featuredThread->featured_thread_id }}"
+                                                        data-title="{{ $featuredThread->title }}" 
+                                                        data-content="{{ $featuredThread->content }}" 
+                                                        data-link="{{ $featuredThread->link }}" 
+                                                        data-category-id="{{ $featuredThread->category_id ?? '' }}">
+                                                        <i class="far fa-edit text-c-yellow"></i>
+                                                        </a></span>
                                                     <span class="comment-btn" data-thread-id="{{ $featuredThread->featured_thread_id }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
                                                 </div>
                                                 </td>
