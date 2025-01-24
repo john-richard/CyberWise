@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Services\FeaturedThreadService;
+use App\Services\CategoryService;
 use App\Services\ThreadService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -14,15 +15,18 @@ class DashboardController extends Controller
     protected $featuredThreadService;
     protected $threadService;
     protected $userService;
+    protected $categoryService;
 
     public function __construct(
         FeaturedThreadService $featuredThreadService,
         ThreadService $threadService,
-        UserService $userService
+        UserService $userService,
+        CategoryService $categoryService
     ) {
         $this->featuredThreadService = $featuredThreadService;
         $this->threadService = $threadService;
         $this->userService = $userService;
+        $this->categoryService = $categoryService;
     }
 
     public function index()
@@ -75,6 +79,45 @@ class DashboardController extends Controller
             'user' => $user,
             'featuredThreads' => $featuredThreads['data'],
             'pagination' => $featuredThreads['pagination']
+        ]);
+
+    }
+
+    public function getLearningHub(Request $request)
+    {
+        $user = Auth::user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        $perPage = $request->get('per_page', 5); // Default per-page value
+
+        $filters = [
+            'search' => $request->query('search', '')
+        ];
+
+
+        // get categories 
+        $categories = $this->categoryService->getCategories([
+            'conditions' => ['status' => true, 'community_display' => false],
+            'limit' => 0,
+            'sort' => ['name', 'desc'], // Correct sorting
+        ]);
+
+
+        // get learning hub threads
+        $threads = $this->featuredThreadService->getLearningHubWithFilters($perPage, $filters);
+
+        \Log::info(" >>>> ". print_r($threads, 1));
+
+        return view('admin.learning-hub', 
+         [
+            'user' => $user,
+            'featuredThreads' => $threads,
+            'filters' => $filters,
+            'categories' => $categories
         ]);
 
     }

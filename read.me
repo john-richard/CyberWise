@@ -79,4 +79,12 @@ API List
 
 
 
+01/25/2025
 
+CREATE SEQUENCE forum.featured_threads_id_seq;
+
+ALTER TABLE forum.featured_threads
+ALTER COLUMN id SET DEFAULT nextval('forum.featured_threads_id_seq');
+
+ALTER SEQUENCE forum.featured_threads_id_seq
+OWNED BY forum.featured_threads.id;

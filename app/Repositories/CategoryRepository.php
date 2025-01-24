@@ -23,4 +23,16 @@ class CategoryRepository
         return $query->get();
     }
 
+    public function getCategoryThreads($condition, $limit = 1)
+    {
+        // Start building the query
+        $query = DB::table('categories')
+            ->join('thread_categories', 'thread_categories.category_id', '=', 'categories.id')
+            ->where($condition)
+            ->limit($limit)
+            ->first();
+    
+        return $query;
+    }
+
 }

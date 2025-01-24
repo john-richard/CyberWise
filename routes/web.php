@@ -45,6 +45,9 @@ Route::middleware(['admin.auth'])->group(function () {
     // Admin get featured thread
     Route::get('/admin/featured-thread', [DashboardController::class, 'getFeaturedThreads'])->name('admin.featured-thread');   
 
+    // Admin get learning hub
+    Route::get('/admin/learning-hub', [DashboardController::class, 'getLearningHub'])->name('admin.learning-hub');   
+
     // Admin get threads
     Route::get('/admin/threads', [DashboardController::class, 'getThreads'])->name('admin.threads');       
 

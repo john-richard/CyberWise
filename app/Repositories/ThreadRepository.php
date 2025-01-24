@@ -110,7 +110,7 @@ class ThreadRepository
         return $threads;
     }
 
-        /**
+    /**
      * Fetch thread details by ID.
      *
      * @param int $threadId

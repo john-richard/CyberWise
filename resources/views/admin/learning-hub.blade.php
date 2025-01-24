@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Cyberwise Dashboard | Build a Safer and Smarter Online Community</title>
+    <title>Cyberwise Featured Thread | Build a Safer and Smarter Online Community</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -53,6 +53,7 @@
     <link rel="stylesheet" href="{{ asset('dbassets/css/style.css') }}">
     
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body class="">
 	<!-- [ Pre-loader ] start -->
@@ -108,17 +109,17 @@
                     <li class="nav-item pcoded-menu-caption">
 						<label>Knowledge Challenge</label>
 					</li>
-                    <li class="nav-item">
-					    <a href="{{ route('admin.learning-hub') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Learning Hub</span></a>
+                    <li class="nav-item pcoded-trigger">
+					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Learning Hub</span></a>
 					</li>
 					<li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">General Trivia</span></a>
+					    <a href="{{ route('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">General Trivia</span></a>
 					</li>
                     <li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-cloud-lightning"></i></span><span class="pcoded-mtext">Brain Teasers</span></a>
+					    <a href="{{ route('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-cloud-lightning"></i></span><span class="pcoded-mtext">Brain Teasers</span></a>
 					</li>
                     <li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Topic Mastery</span></a>
+					    <a href="{{ route('dashboard') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Topic Mastery</span></a>
 					</li>                    
 				</ul>
 				
@@ -246,13 +247,11 @@
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="page-header-title">
-                                <h5 class="m-b-10">Community Members</h5>
+                                <h5 class="m-b-10">Learning Hub</h5>
                             </div>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="feather icon-home"></i></a></li>
-                                <li class="breadcrumb-item">
-                                    <a href="{{ route('admin.users', ['type' => $type]) }}">{{ ucwords($type) }}</a>
-                                </li>
+                                <li class="breadcrumb-item"><a href="#!">Learning Hub</a></li>
                             </ul>
                         </div>
                     </div>
@@ -262,11 +261,71 @@
             <!-- [ Main Content ] start -->
             <div class="row">
 
-                <!-- prject ,team member start -->
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form class="form-inline" id="searchHub" name="searchHub">
+                                        <div class="form-group mx-sm-3 mb-2">
+                                            <label for="search" class="sr-only">Search</label>
+                                            <input type="text" class="form-control" name="searchFilter" id="searchFilter" placeholder="Search term" required>
+                                        </div>
+                                        <button type="submit" class="btn  btn-primary mb-2" onclick="applySearchFilter();">Search</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addNewModal" data-whatever="@getbootstrap">Add New <i class="feather mr-2 icon-plus-circle"></i></button>
+
+                                    <div class="modal fade text-left" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="addNewModalLabel">Create New Entry</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                <form id="createHubForm" name="createHubForm">
+                                                    <div class="form-group">
+                                                        <label for="hubCategory">Categories</label>
+                                                        <select class="form-control" id="hubCategory" name="hubCategory">
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                        @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="hubTitle" class="col-form-label">Title:</label>
+                                                        <input type="text" class="form-control" name="hubTitle" id="hubTitle" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="hubLink" class="col-form-label">URL:</label>
+                                                        <input type="text" class="form-control" name="hubLink" id="hubLink" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="hubContent" class="col-form-label">Content:</label>
+                                                        <textarea class="form-control" id="hubContent" name="hubContent" required></textarea>
+                                                    </div>
+                                                    </form>
+                                                    <div id="error-message" style="color: red; display: none;"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary" name="submitCreateHubForm" id="submitCreateHubForm">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-xl-12 col-md-12">
                     <div class="card table-card">
                         <div class="card-header">
-                            <h5>Users</h5>
+                            <h5>Learning Hub</h5>
                             <div class="card-header-right">
                                 <div class="btn-group card-option">
                                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -293,52 +352,57 @@
                                                         <span class="custom-control-label"></span>
                                                     </label>
                                                 </div>
-                                                Username
+                                                Title
                                             </th>
                                             <th>Status</th>
-                                            <th>Date Created</th>
                                             <th class="text-right">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @if($users->isEmpty())
+
+                                    @if($featuredThreads->isEmpty())
                                         <tr>
-                                            <td colspan="5">No user available</td>
+                                            <td colspan="3">No featured thread available</td>
                                         </tr>
                                     @else
-                                        @foreach ($users as $usr)
-                                        <tr>
-                                            <td>
-                                                <div class="chk-option">
-                                                    <label class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
-                                                        <input type="checkbox" class="custom-control-input">
-                                                        <span class="custom-control-label"></span>
-                                                    </label>
-                                                </div>
-                                                <div class="d-inline-block align-middle">
-                                                    <img src="{{ asset('storage/' . $usr->avatar) }}" alt="user image" class="img-radius wid-40 align-top m-r-15">
-                                                    <div class="d-inline-block">
-                                                        <h6>{{ $usr->username }}</h6>
-                                                        <p class="text-muted m-b-0">{{ $usr->role === 1 ? 'Admin' : 'Member' }}</p>
+                                        @foreach ($featuredThreads as $index => $featuredThread)
+
+                                            <tr>
+                                                <td>
+                                                    <div class="chk-option">
+                                                        <label class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
+                                                            <input type="checkbox" class="custom-control-input">
+                                                            <span class="custom-control-label"></span>
+                                                        </label>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                {!! $usr->status === 1 
+                                                    <div class="d-inline-block align-middle">
+                                                        <div class="d-inline-block">
+                                                            <h6><a href="{{ $featuredThread->link }}" class="learn-more-link">{{ $featuredThread-> title }}</a></h6>
+                                                            <p 
+                                                                data-bs-toggle="tooltip" 
+                                                                data-bs-placement="top" 
+                                                                title="{{ $featuredThread->content }}">
+                                                                {{ Str::limit($featuredThread->content , 100, '...') }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                {!! $featuredThread->status 
                                                     ? '<strong style="color: #29b765;">Active</strong>' 
                                                     : '<strong style="color: #e74c3c;">Inactive</strong>' !!}
-                                            </td>
-                                            <td>{{ $usr->created_date }}</td>
-                                            <td class="text-right">
-                                                <div class="text-muted small text-right">
+                                                </td>
+                                                <td class="text-right">
+                                                <div class="text-muted small text-center align-self-center">
                                                     <span class="d-none d-sm-inline-block"><a href="{{ route('dashboard') }}"><i class="far fa-edit text-c-yellow"></i></a></span>
-                                                    <span class="comment-btn" data-user-id="{{ $usr->user_id }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
+                                                    <span class="comment-btn" data-thread-id="{{ $featuredThread->featured_thread_id }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
                                                 </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                         @endforeach
+                                        {{-- Pagination Links --}}
                                         <tr>
-                                            <td colspan="4"> {{ $users->links() }} </td>
+                                            <td colspan="4"> {{ $featuredThreads->links() }} </td>
                                         </tr>
                                     @endif
                                     </tbody>
@@ -347,12 +411,14 @@
                         </div>
                     </div>
                 </div>
-                <!-- prject ,team member start -->
+
             </div>
             <!-- [ Main Content ] end -->
         </div>
     </div>
     <!-- [ Main Content ] end -->
+
+    <!-- Required Js -->
 
     <!-- Required Js -->
     <script src="{{ asset('dbassets/js/vendor-all.min.js') }}"></script>
@@ -366,6 +432,8 @@
     <!-- custom-chart js -->
     <script src="{{ asset('dbassets/js/pages/dashboard-main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="{{ asset('assets/js/learning-hub.js') }}"></script>
 </body>
 
 </html>

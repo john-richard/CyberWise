@@ -7,6 +7,8 @@ use App\Models\FeaturedThread;
 use App\Models\Thread;
 use App\Models\Category;
 use App\Repositories\ThreadRepository;
+use App\Repositories\FeaturedThreadRepository;
+use App\Repositories\CategoryRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
@@ -14,10 +16,17 @@ use Illuminate\Support\Facades\Validator;
 class FeaturedThreadService
 {
     protected $threadRepository;
+    protected $featuredThreadRepository;
+    protected $categoryRepository;
 
-    public function __construct(ThreadRepository $threadRepository)
-    {
+    public function __construct(
+        ThreadRepository $threadRepository,
+        FeaturedThreadRepository $featuredThreadRepository,
+        CategoryRepository $categoryRepository
+    ) {
         $this->threadRepository = $threadRepository;
+        $this->featuredThreadRepository = $featuredThreadRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -138,6 +147,99 @@ class FeaturedThreadService
     //     return $thread;
     // }
 
+    public function getLearningHubWithFilters(int $perPage = 20, array $filters = [])
+    {
+        return $this->featuredThreadRepository->getLearningHubWithFilters($perPage, $filters);
+    }
+
+    /**
+     * Create a new learning hub.
+     *
+     * @param  array  $data
+     * @return \App\Models\FeaturedThread
+     */
+    public function createLearningHub(array $data)
+    {
+        $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        // Check if user is authenticated
+        if ($user->role !== 1) {
+            return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
+        }
+
+        // Validate input data
+        $this->validateData('create-hub', $data);
+
+        // Ensure the category exists and is active
+        $categoryThreads = $this->categoryRepository->getCategoryThreads(['categories.id' => $data['hubCategory']]);
+
+        if (!$categoryThreads || $categoryThreads->status !== true) {
+            throw new \Exception('Category is either not found or inactive.');
+        }
+
+        // Create the featured thread
+        $thread = FeaturedThread::create([
+            'thread_id' => $categoryThreads->thread_id,
+            'title' => $data['hubTitle'],
+            'content' => $data['hubContent'],
+            'link' => $data['hubLink'],
+            'status' => true, // Default to true
+            'order' => 1
+        ]);
+
+        return [
+            'data' => $thread,
+            'redirect_url' => '/admin/learning-hub',
+        ];
+    }
+
+    public function updateLearningHub($id, array $data)
+    {
+        $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        // Check if user is authenticated
+        if ($user->role !== 1) {
+            return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
+        }
+
+        // Validate the incoming data
+        $this->validateData('update-hub', $data);
+
+        // Find the thread by ID and update it
+        $thread = FeaturedThread::findOrFail($id);
+        // Check if user is authenticated
+        if (!$thread) {
+            return response()->json(['error' => 'Featured thread not found.'], 404);
+        }
+
+        // Ensure the category exists and is active
+        $categoryThreads = $this->categoryRepository->getCategoryThreads(['categories.id' => $data['hubCategory']]);
+
+        if (!$categoryThreads || $categoryThreads->status !== true) {
+            throw new \Exception('Category is either not found or inactive.');
+        }
+
+        // Find the thread by ID and update it
+        $thread->update([
+            'thread_id' => $categoryThreads->thread_id,
+            'title' => $data['hubTitle'],
+            'content' => $data['hubContent'],
+            'link' => $data['hubLink']
+        ]);
+
+        return $thread;
+    }
+
     /**
      * Validate input data.
      *
@@ -161,7 +263,13 @@ class FeaturedThreadService
             'update' => [
                 'title' => 'required|string|max:255',
                 'user_id' => 'required|integer'
-            ]
+            ],
+            'create-hub' => [
+                'hubCategory' => 'required|exists:categories,id',  // Ensure the category exists
+                'hubTitle' => 'required|string|max:255',
+                'hubContent' => 'nullable|string',
+                'hubLink' => 'nullable|url'
+            ],
         ];
 
         // Validate the data based on the rules

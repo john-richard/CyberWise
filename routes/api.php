@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
-
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FeaturedThreadController;
@@ -30,6 +29,9 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::post('/featured-thread', [FeaturedThreadController::class, 'createFeaturedThread']); // Create a featured thread
     Route::put('/featured-thread/{id}', [FeaturedThreadController::class, 'updateFeaturedThread']); // Update featured thread
     Route::delete('/featured-thread/{id}', [FeaturedThreadController::class, 'deleteFeaturedThread']); // Deactivate thread
+
+    Route::post('/learning-hub', [FeaturedThreadController::class, 'createLearningHub']); // Create a learning hub
+    Route::put('/learning-hub/{id}', [FeaturedThreadController::class, 'updateLearningHub']); // Update learning hub
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

@@ -48,4 +48,24 @@ class FeaturedThreadController extends Controller
 
     //     return response()->json(['message' => 'Post deactivated successfully']);
     // }
+
+    public function createLearningHub(Request $request)
+    {
+        $data = $request->all();
+
+        // Call the service to add a learning hub
+        $response = $this->featuredThreadService->createLearningHub($request->all());
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+    }
+
+    public function updateLearningHub(Request $request, $id)
+    {
+        // Call the service to add a threads
+        $threads = $this->featuredThreadService->updateLearningHub($id, $request->all());
+
+        return response()->json(['message' => 'Featured threads updated successfully', 'threads' => $threads], 201);
+    }
 }
