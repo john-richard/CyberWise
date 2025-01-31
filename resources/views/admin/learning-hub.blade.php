@@ -269,9 +269,13 @@
                                     <form class="form-inline" id="searchHub" name="searchHub">
                                         <div class="form-group mx-sm-3 mb-2">
                                             <label for="search" class="sr-only">Search</label>
-                                            <input type="text" class="form-control" name="searchFilter" id="searchFilter" placeholder="Search term" required>
+                                            <input value="{{ $filters['search'] ?? '' }}" type="text" class="form-control" name="searchFilter" id="searchFilter" placeholder="Search term" required >
                                         </div>
-                                        <button type="submit" class="btn  btn-primary mb-2" onclick="applySearchFilter();">Search</button>
+                                        <!-- <button type="submit" class="btn  btn-primary mb-2">Search</button> -->
+                                        <button class="btn btn-primary mb-2" type="button" id="searchButton" disabled>
+                                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                                            Loading...
+                                        </button>
                                     </form>
                                 </div>
                                 <div class="col-md-6 text-right">
@@ -406,7 +410,13 @@
                                                         data-category-id="{{ $featuredThread->category_id ?? '' }}">
                                                         <i class="far fa-edit text-c-yellow"></i>
                                                         </a></span>
-                                                    <span class="comment-btn" data-thread-id="{{ $featuredThread->featured_thread_id }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
+                                                    <span class="comment-btn">
+                                                        <a 
+                                                        data-whatever="@getbootstrap"
+                                                        data-toggle="modal"
+                                                        data-target="#deleteModal"
+                                                        data-thread-id="{{ $featuredThread->featured_thread_id }}"
+                                                        ><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
                                                 </div>
                                                 </td>
                                             </tr>
@@ -418,6 +428,28 @@
                                     @endif
                                     </tbody>
                                 </table>
+
+                                <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Delete Thread</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="mb-0">You are about to delete this entry. Do you want to proceed?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <!-- Include a data-thread-id attribute to hold the thread ID -->
+                                                <button type="button" id="confirmDelete" class="btn btn-primary">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

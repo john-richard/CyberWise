@@ -19,8 +19,6 @@ class HomeController extends Controller
 
         $featuredThreads = $this->featuredThreadService->getFeaturedThreads([ 'limit' => 5 ]);
 
-        \Log::info("FT >>>>>>>>>>>> ". print_r($featuredThreads['data'], 1));
-
         return view('index', ['featuredThreads' => $featuredThreads['data']]);
     }
 }

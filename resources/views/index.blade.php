@@ -119,7 +119,7 @@
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
             <div class="aservice-list">
-              <a href="#" class="info-link">
+              <a href="{{ route('learning-hub') }}#features" class="info-link">
                 <div class="list-img">
                   <div class="list-info">Learning<br>Hub</div>
                   <img src="{{ asset('assets/img/about/service-4.png') }}" class="img-fluid" alt="">

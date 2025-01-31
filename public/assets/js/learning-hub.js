@@ -59,21 +59,96 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    // Open Delete Modal and set thread ID
+    document.querySelectorAll('[data-toggle="modal"][data-target="#deleteModal"]').forEach(button => {
+        button.addEventListener('click', function () {
+            // Extract thread ID from the clicked button
+            const threadId = this.dataset.threadId;
+
+            // Set the threadId on the "Delete" button in the modal
+            const deleteButton = document.getElementById('confirmDelete');
+            deleteButton.dataset.threadId = threadId;
+        });
+    });
+
+    // Handle Delete Request
+    const deleteButton = document.getElementById('confirmDelete');
+    if (deleteButton) {
+        document.getElementById('confirmDelete').addEventListener('click', async function () {
+            const threadId = this.dataset.threadId; // Retrieve thread ID from button
+
+            if (!threadId) {
+                alert('Thread ID is missing.');
+                return;
+            }
+
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                // Send DELETE request
+                const response = await axios.delete(`/api/admin/learning-hub/${threadId}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                // Close the modal and reload the page or update the UI
+                $('#deleteModal').modal('hide');
+                window.location.reload(); // Optionally reload the page
+            } catch (error) {
+                console.error('Error deleting the entry:', error);
+                alert('Failed to delete the entry. Please try again.');
+            }
+        });
+    }
 });
 
-// Function to apply search filter
 async function applySearchFilter() {
-    const filter = document.getElementById('searchFilter').value.trim();
+    const searchFilterInput = document.getElementById('searchFilter');
+    const searchButton = document.getElementById('searchButton');
+
+    // Get the search filter value
+    const filter = searchFilterInput.value.trim();
 
     // Prevent submission if the input is empty
     if (!filter) {
         return;
     }
 
-    const url = new URL(window.location.href);
-    url.searchParams.set('search', filter);
-    window.location.href = url.toString();
+    // Set button to loading state
+    searchButton.disabled = true;
+    searchButton.innerHTML = `
+        <span class="spinner-border spinner-border-sm" role="status"></span>
+        Loading...
+    `;
+
+    try {
+        // Update the URL with the search filter and reload the page
+        const url = new URL(window.location.href);
+        url.searchParams.set('search', filter);
+        window.location.href = url.toString();
+    } catch (error) {
+        console.error('Error applying search filter:', error);
+    } finally {
+        // Optionally, reset the button state if needed (e.g., on error)
+        // searchButton.disabled = false;
+        // searchButton.innerHTML = 'Search';
+    }
 }
+
+// Event listener to handle search
+document.getElementById('searchButton').addEventListener('click', applySearchFilter);
+
+// Enable the button when the page is fully loaded
+window.addEventListener('load', () => {
+    const searchButton = document.getElementById('searchButton');
+    searchButton.disabled = false;
+    searchButton.innerHTML = 'Search';
+});
+
 
 // Function to handle form submission for createHubForm
 async function handleLearningHubFormSubmission() {
@@ -159,38 +234,4 @@ async function handleLearningHubFormSubmission() {
     }
 }
 
-
-// async function populateEditModal(threadId) {
-//     try {
-//         // Iterate over all modal trigger buttons
-//         document.querySelectorAll('[data-toggle="modal"][data-target="#editModal"]').forEach(button => {
-//             button.addEventListener('click', function () {
-//                 // Retrieve data-* attributes
-//                 const threadId = this.dataset.threadId;
-//                 const title = this.dataset.title;
-//                 const content = this.dataset.content;
-//                 const link = this.dataset.link;
-//                 const categoryId = this.dataset.categoryId;
-
-//                 // Log to check the values
-//                 console.log('Thread ID:', threadId);
-//                 console.log('Title:', title);
-//                 console.log('Content:', content);
-//                 console.log('Link:', link);
-//                 console.log('Category ID:', categoryId);
-
-//                 // Populate the modal fields with these values
-//                 document.getElementById('hubCategory').value = categoryId || '';
-//                 document.getElementById('hubTitle').value = title || '';
-//                 document.getElementById('hubLink').value = link || '';
-//                 document.getElementById('hubContent').value = content || '';
-
-//                 // Update modal title and action
-//                 document.getElementById('addNewModalLabel').textContent = 'Edit Entry';
-//             });
-//         });
-//     } catch (error) {
-//         console.error('Error populating modal:', error);
-//     }
-// }
 

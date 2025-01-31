@@ -110,7 +110,7 @@ class DashboardController extends Controller
         // get learning hub threads
         $threads = $this->featuredThreadService->getLearningHubWithFilters($perPage, $filters);
 
-        \Log::info(" >>>> ". print_r($threads, 1));
+        \Log::info(" >>>> ". print_r($filters, 1));
 
         return view('admin.learning-hub', 
          [

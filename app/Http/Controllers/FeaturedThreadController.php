@@ -49,11 +49,38 @@ class FeaturedThreadController extends Controller
     //     return response()->json(['message' => 'Post deactivated successfully']);
     // }
 
+    // community learning hub display
+    public function showLearningHub(Request $request)
+    {
+        $perPage = 100; // Default per-page value
+
+        $filters = [
+            'search' => $request->query('search', ''),
+            'orderBy' => ['featured_threads.id', 'ASC']
+        ];
+
+        // get learning hub threads
+        $threads = $this->featuredThreadService->getLearningHubWithFilters($perPage, $filters);
+
+
+        $threadsArray = $threads->items();
+        if (!empty($threadsArray) && isset($threadsArray[0])) {
+            $threadTitle = $threadsArray[0]->thread_title;
+        } else {
+            $threadTitle = 'No threads available'; // Provide a fallback value
+        }
+
+        return view('learning-hub', 
+        [
+           'featuredThreads' => $threads,
+           'threadTitle' => $threadTitle,
+           'filters' => $filters
+        ]);
+    }
+
     public function createLearningHub(Request $request)
     {
-        $data = $request->all();
-
-        // Call the service to add a learning hub
+        // Call the service to add learning hub
         $response = $this->featuredThreadService->createLearningHub($request->all());
         if (isset($response['error'])) {
             return response()->json($response, 401);
@@ -63,8 +90,19 @@ class FeaturedThreadController extends Controller
 
     public function updateLearningHub(Request $request, $id)
     {
-        // Call the service to add a threads
+        // Call the service to update learning hub
         $response = $this->featuredThreadService->updateLearningHub($id, $request->all());
+
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+    }
+
+    public function deleteLearningHub($id)
+    {
+        // Call the service to delete learning hub
+        $response = $this->featuredThreadService->deleteLearningHub($id);
 
         if (isset($response['error'])) {
             return response()->json($response, 401);

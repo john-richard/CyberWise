@@ -236,9 +236,42 @@ class FeaturedThreadService
             'content' => $data['hubContent'],
             'link' => $data['hubLink']
         ];
-        
+
         $thread->update($payload);
 
+        return [
+            'data' => $thread,
+            'redirect_url' => '/admin/learning-hub',
+        ];
+    }
+
+    public function deleteLearningHub($id)
+    {
+        $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        // Check if user is authenticated
+        if ($user->role !== 1) {
+            return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
+        }
+
+        // Find the thread by ID and update it
+        $thread = FeaturedThread::findOrFail($id);
+
+        // Check if user is authenticated
+        if (!$thread) {
+            return response()->json(['error' => 'Featured thread not found.'], 404);
+        }
+    
+        // Perform soft delete (update status)
+        $thread->status = false;
+        $thread->updated_at = now();
+        $thread->save();
+        
         return [
             'data' => $thread,
             'redirect_url' => '/admin/learning-hub',

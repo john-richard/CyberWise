@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\FeaturedThreadController;
 use App\Http\Controllers\Admin\DashboardController;
 
 /*
@@ -30,6 +31,8 @@ Route::get('/register', function () {
 })->name('register');
 
 Route::get('/community', [CommunityController::class, 'index'])->name('community');
+
+Route::get('/learning-hub', [FeaturedThreadController::class, 'showLearningHub'])->name('learning-hub');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Thread

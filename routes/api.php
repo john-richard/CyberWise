@@ -32,6 +32,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
     Route::post('/learning-hub', [FeaturedThreadController::class, 'createLearningHub']); // Create a learning hub
     Route::put('/learning-hub/{id}', [FeaturedThreadController::class, 'updateLearningHub']); // Update learning hub
+    Route::delete('/learning-hub/{id}', [FeaturedThreadController::class, 'deleteLearningHub']); // Delete learning hub
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
