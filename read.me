@@ -88,3 +88,19 @@ ALTER COLUMN id SET DEFAULT nextval('forum.featured_threads_id_seq');
 
 ALTER SEQUENCE forum.featured_threads_id_seq
 OWNED BY forum.featured_threads.id;
+
+
+
+insert into forum.categories (id, name,description, status, community_display)  values 
+(8, 'Test Your Knowledge', 'Test your knowledge questionaires.', true, false),
+(7, 'Learning Hub', 'Learning hub threads from other sources.', true, false);
+
+insert into forum.threads (id, title, user_id, status)  values 
+(57, 'Test your knowledge questionaires', 15, true);
+
+insert into forum.thread_categories (thread_id, category_id)  values 
+(56, 7), (57, 8)
+
+
+
+

@@ -766,4 +766,7 @@ $(window).scroll(function() {
         }
     }
 });
+$("#more-details").on("click", function() {
+    $("#nav-user-link").slideToggle()
+});
 // only heaeder fixed js end

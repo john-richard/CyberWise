@@ -4829,10 +4829,13 @@ input[type="button"].btn-block {
 .card-body {
     flex: 1 1 auto;
     padding: 1.25rem;
+    font-family: "Open Sans", sans-serif !important;
 }
 
 .card-title {
     margin-bottom: 1.25rem;
+    font-family: "Open Sans", sans-serif !important;
+    color: #37474f !important;
 }
 
 .card-subtitle {
@@ -6610,15 +6613,44 @@ a.close.disabled {
 
 .carousel-caption {
     position: absolute;
-    right: 15%;
-    bottom: 20px;
-    left: 15%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
     color: #fff;
     text-align: center;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Optional: Slight background for readability */
+    pointer-events: none; 
 }
+
+.choices-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Ensures all choices are aligned properly */
+    gap: 8px; /* Provides equal spacing between choices */
+    pointer-events: auto;
+}
+
+.form-check {
+    display: flex;
+    align-items: center; /* Aligns radio button and label properly */
+    gap: 10px; /* Space between radio button and label */
+    padding-bottom: 10px;
+}
+
+.form-check-input {
+    margin: 0; /* Ensures no extra spacing */
+    transform: scale(1.2); /* Makes the radio button slightly bigger */
+    cursor: pointer;
+}
+
+.form-check-label {
+    line-height: 1.2; /* Ensures proper label alignment */
+    cursor: pointer;
+}
+
 
 @-webkit-keyframes spinner-border {
     to {

@@ -42,7 +42,6 @@ class DashboardController extends Controller
         $perPage = 5; // Default per-page value
 
         $featuredThreads = $this->featuredThreadService->getFeaturedThreads([ 'limit' => $perPage ]);
-        \Log::info(" featuredThreads !!>>> " . print_r($featuredThreads['data']['featuredThreads'], 1));
         
         $filters = [
             'sortBy' => ['sortBy', 'latest'], // Default to 'latest'
@@ -101,7 +100,11 @@ class DashboardController extends Controller
 
         // get categories 
         $categories = $this->categoryService->getCategories([
-            'conditions' => ['status' => true, 'community_display' => false],
+            'conditions' => [
+                'status' => true,
+                'community_display' => false,
+                'id' => 7 // Learning hub category
+            ],
             'limit' => 0,
             'sort' => ['name', 'desc'], // Correct sorting
         ]);
@@ -121,6 +124,48 @@ class DashboardController extends Controller
         ]);
 
     }
+
+    public function getTestYourKnowledge(Request $request)
+    {
+        $user = Auth::user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        $perPage = $request->get('per_page', 20); // Default per-page value
+
+        $filters = [
+            'search' => $request->query('search', '')
+        ];
+
+
+        // get categories 
+        $categories = $this->categoryService->getCategories([
+            'conditions' => [
+                'status' => true, 
+                'community_display' => false,
+                'id' => 8 // Test your knowledge category
+            
+            ],
+            'limit' => 0,
+            'sort' => ['name', 'desc'], // Correct sorting
+        ]);
+
+
+        // get learning hub threads
+        $threads = $this->featuredThreadService->getTestYourKnowledgeWithFilters($perPage, $filters);
+        
+        return view('admin.knowledge', 
+         [
+            'user' => $user,
+            'featuredThreads' => $threads,
+            'filters' => $filters,
+            'categories' => $categories
+        ]);
+
+    }    
 
     public function getThreads(Request $request)
     {

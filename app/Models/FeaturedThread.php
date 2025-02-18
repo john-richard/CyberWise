@@ -14,5 +14,6 @@ class FeaturedThread extends Model
         'status',
         'link',
         'updated_at',
+        'metadata'
     ];
 }

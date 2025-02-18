@@ -24,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('components.pagination');
         Blade::component('components.footer', 'footer');
         Blade::component('components.navigation', 'navigation');
+        Blade::component('components.admin-navigation', 'admin-navigation');
     }
 }

@@ -62,176 +62,113 @@
 		</div>
 	</div>
 	<!-- [ Pre-loader ] End -->
+
 	<!-- [ navigation menu ] start -->
-	<nav class="pcoded-navbar  ">
-		<div class="navbar-wrapper  ">
-			<div class="navbar-content scroll-div " >
-				
-				<div class="">
-					<div class="main-menu-header">
-						<img class="img-radius" src="{{ asset('storage/' . $user->avatar) }}" alt="User-Profile-Image">
-						<div class="user-details">
-							<span>{{ $user->username }}</span>
-							<div id="more-details">Admin<i class="fa fa-chevron-down m-l-5"></i></div>
-						</div>
-					</div>
-					<div class="collapse" id="nav-user-link">
-						<ul class="list-unstyled">
-							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
-							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
-							<li class="list-group-item"><a href="#logout" class="logoutBtn"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
-						</ul>
-					</div>
-				</div>
-				
-				<ul class="nav pcoded-inner-navbar ">
-					<li class="nav-item pcoded-menu-caption">
-						<label>Users</label>
-					</li>
-					<li class="nav-item">
-					    <a href="{{ route('admin.users') }}?type=admin" class="nav-link "><span class="pcoded-micon"><i class="feather icon-server"></i></span><span class="pcoded-mtext">Admin</span></a>
-					</li>
-                    <li class="nav-item">
-					    <a href="{{ route('admin.users') }}?type=member" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Member</span></a>
-					</li>
-
-                    <li class="nav-item pcoded-menu-caption">
-						<label>Community</label>
-					</li>
-					<li class="nav-item">
-					    <a href="{{ route('admin.threads') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Threads</span></a>
-					</li>
-                    <li class="nav-item">
-					    <a href="{{ route('admin.featured-thread') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-trending-up"></i></span><span class="pcoded-mtext">Featured</span></a>
-					</li>
-
-                    <li class="nav-item pcoded-menu-caption">
-						<label>Knowledge Challenge</label>
-					</li>
-                    <li class="nav-item">
-					    <a href="{{ route('admin.learning-hub') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Learning Hub</span></a>
-					</li>
-					<li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">General Trivia</span></a>
-					</li>
-                    <li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-cloud-lightning"></i></span><span class="pcoded-mtext">Brain Teasers</span></a>
-					</li>
-                    <li class="nav-item">
-					    <a href="index.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Topic Mastery</span></a>
-					</li>                    
-				</ul>
-				
-			</div>
-		</div>
-	</nav>
+    <x-admin-navigation :user="$user" />
 	<!-- [ navigation menu ] end -->
+
 	<!-- [ Header ] start -->
-	<header class="navbar pcoded-header navbar-expand-lg navbar-light header-dark">
-		
-			
-				<div class="m-header">
-					<a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
-					<a href="{{ route('home') }}" class="b-brand">
-						<!-- ========   change your logo hear   ============ -->
-						<img src="{{ asset('assets/img/logo.png') }}" alt="" class="logo">
-						<img src="{{ asset('assets/img/logo-icon.png') }}" alt="" class="logo-thumb">
-					</a>
-					<a href="{{ route('home') }}" class="mob-toggler">
-						<i class="feather icon-more-vertical"></i>
-					</a>
-				</div>
-				<div class="collapse navbar-collapse">
-					<ul class="navbar-nav ml-auto">
-						<li>
-							<div class="dropdown">
-								<a class="dropdown-toggle" href="#" data-toggle="dropdown">
-									<i class="icon feather icon-bell"></i>
-									<span class="badge badge-pill badge-danger">5</span>
-								</a>
-								<div class="dropdown-menu dropdown-menu-right notification">
-									<div class="noti-head">
-										<h6 class="d-inline-block m-b-0">Notifications</h6>
-										<div class="float-right">
-											<a href="#!" class="m-r-10">mark as read</a>
-											<a href="#!">clear all</a>
-										</div>
-									</div>
-									<ul class="noti-body">
-										<li class="n-title">
-											<p class="m-b-0">NEW</p>
-										</li>
-										<li class="notification">
-											<div class="media">
-												<img class="img-radius" src="dbassets/images/user/avatar-1.jpg" alt="Generic placeholder image">
-												<div class="media-body">
-													<p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
-													<p>New ticket Added</p>
-												</div>
-											</div>
-										</li>
-										<li class="n-title">
-											<p class="m-b-0">EARLIER</p>
-										</li>
-										<li class="notification">
-											<div class="media">
-												<img class="img-radius" src="dbassets/images/user/avatar-2.jpg" alt="Generic placeholder image">
-												<div class="media-body">
-													<p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
-													<p>Prchace New Theme and make payment</p>
-												</div>
-											</div>
-										</li>
-										<li class="notification">
-											<div class="media">
-												<img class="img-radius" src="dbassets/images/user/avatar-1.jpg" alt="Generic placeholder image">
-												<div class="media-body">
-													<p><strong>Sara Soudein</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12 min</span></p>
-													<p>currently login</p>
-												</div>
-											</div>
-										</li>
-										<li class="notification">
-											<div class="media">
-												<img class="img-radius" src="dbassets/images/user/avatar-2.jpg" alt="Generic placeholder image">
-												<div class="media-body">
-													<p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-													<p>Prchace New Theme and make payment</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-									<div class="noti-footer">
-										<a href="#!">show all</a>
-									</div>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="dropdown drp-user">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="feather icon-user"></i>
-								</a>
-								<div class="dropdown-menu dropdown-menu-right profile-notification">
-									<div class="pro-head">
-										<img src="{{ asset('storage/' . $user->avatar) }}" class="img-radius" alt="User-Profile-Image">
-										<span>{{ $user->username }}</span>
-										<a href="#logout" class="dud-logout logoutBtn" title="Logout">
-											<i class="feather icon-log-out"></i>
-										</a>
-									</div>
-									<ul class="pro-body">
-										<li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-										<li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-										<li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
-									</ul>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-				
-			
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light header-dark">	
+        <div class="m-header">
+            <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+            <a href="{{ route('home') }}" class="b-brand">
+                <!-- ========   change your logo hear   ============ -->
+                <img src="{{ asset('assets/img/logo.png') }}" alt="" class="logo">
+                <img src="{{ asset('assets/img/logo-icon.png') }}" alt="" class="logo-thumb">
+            </a>
+            <a href="{{ route('home') }}" class="mob-toggler">
+                <i class="feather icon-more-vertical"></i>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                            <i class="icon feather icon-bell"></i>
+                            <span class="badge badge-pill badge-danger">5</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right notification">
+                            <div class="noti-head">
+                                <h6 class="d-inline-block m-b-0">Notifications</h6>
+                                <div class="float-right">
+                                    <a href="#!" class="m-r-10">mark as read</a>
+                                    <a href="#!">clear all</a>
+                                </div>
+                            </div>
+                            <ul class="noti-body">
+                                <li class="n-title">
+                                    <p class="m-b-0">NEW</p>
+                                </li>
+                                <li class="notification">
+                                    <div class="media">
+                                        <img class="img-radius" src="dbassets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
+                                            <p>New ticket Added</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="n-title">
+                                    <p class="m-b-0">EARLIER</p>
+                                </li>
+                                <li class="notification">
+                                    <div class="media">
+                                        <img class="img-radius" src="dbassets/images/user/avatar-2.jpg" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
+                                            <p>Prchace New Theme and make payment</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="notification">
+                                    <div class="media">
+                                        <img class="img-radius" src="dbassets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12 min</span></p>
+                                            <p>currently login</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="notification">
+                                    <div class="media">
+                                        <img class="img-radius" src="dbassets/images/user/avatar-2.jpg" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                                            <p>Prchace New Theme and make payment</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="noti-footer">
+                                <a href="#!">show all</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown drp-user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="feather icon-user"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right profile-notification">
+                            <div class="pro-head">
+                                <img src="{{ asset('storage/' . $user->avatar) }}" class="img-radius" alt="User-Profile-Image">
+                                <span>{{ $user->username }}</span>
+                                <a href="#logout" class="dud-logout logoutBtn" title="Logout">
+                                    <i class="feather icon-log-out"></i>
+                                </a>
+                            </div>
+                            <ul class="pro-body">
+                                <li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
+                                <li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
+                                <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
 	</header>
 	<!-- [ Header ] end -->
 	

@@ -33,6 +33,10 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::post('/learning-hub', [FeaturedThreadController::class, 'createLearningHub']); // Create a learning hub
     Route::put('/learning-hub/{id}', [FeaturedThreadController::class, 'updateLearningHub']); // Update learning hub
     Route::delete('/learning-hub/{id}', [FeaturedThreadController::class, 'deleteLearningHub']); // Delete learning hub
+
+    Route::post('/knowledge', [FeaturedThreadController::class, 'createTestYourKnowledge']); // Create a TestYourKnowledge
+    Route::put('/knowledge/{id}', [FeaturedThreadController::class, 'updateTestYourKnowledge']); // Update TestYourKnowledge
+    Route::delete('/knowledge/{id}', [FeaturedThreadController::class, 'deleteTestYourKnowledge']); // Delete TestYourKnowledge
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -51,5 +55,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Delete a posts (comment to thread) - not yet
     Route::delete('/thread/{id}/post', [PostController::class, 'destroy']);
+
+    // Test Your Knowledge
+    Route::post('/test-knowledge', [FeaturedThreadController::class, 'submitKnowledgeTest']);
 
 });

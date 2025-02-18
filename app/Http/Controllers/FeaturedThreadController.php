@@ -78,6 +78,48 @@ class FeaturedThreadController extends Controller
         ]);
     }
 
+    public function takeKnowledgeTest(Request $request)
+    {
+        $perPage = 10; // Default per-page value
+
+        $filters = [
+            'search' => $request->query('search', ''),
+            'orderBy' => 'random'
+        ];
+
+        // get learning hub threads
+        $threads = $this->featuredThreadService->getTestYourKnowledgeWithFilters($perPage, $filters);
+
+
+        $threadsArray = $threads->items();
+        if (!empty($threadsArray) && isset($threadsArray[0])) {
+            $threadTitle = $threadsArray[0]->thread_title;
+        } else {
+            $threadTitle = 'No threads available'; // Provide a fallback value
+        }
+
+        return view('knowledge', 
+        [
+           'featuredThreads' => $threads,
+           'threadTitle' => $threadTitle,
+           'filters' => $filters
+        ]);
+    }
+
+    public function submitKnowledgeTest(Request $request)
+    {
+        $data = $request->all();
+
+        // submit test your knowledge
+        $response = $this->featuredThreadService->submitKnowledgeTest($data);
+
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+
+    }
+
     public function createLearningHub(Request $request)
     {
         // Call the service to add learning hub
@@ -103,6 +145,38 @@ class FeaturedThreadController extends Controller
     {
         // Call the service to delete learning hub
         $response = $this->featuredThreadService->deleteLearningHub($id);
+
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+    }
+
+    public function createTestYourKnowledge(Request $request)
+    {
+        // Call the service to add learning hub
+        $response = $this->featuredThreadService->createTestYourKnowledge($request);
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+    }
+
+    public function updateTestYourKnowledge(Request $request, $id)
+    {
+        // Call the service to update learning hub
+        $response = $this->featuredThreadService->updateTestYourKnowledge($id, $request);
+
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+    }
+
+    public function deleteTestYourKnowledge($id)
+    {
+        // Call the service to delete learning hub
+        $response = $this->featuredThreadService->deleteTestYourKnowledge($id);
 
         if (isset($response['error'])) {
             return response()->json($response, 401);

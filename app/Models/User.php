@@ -28,7 +28,8 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'role',
-        'deleted_at'
+        'deleted_at',
+        'metadata'
     ];
 
     /**
