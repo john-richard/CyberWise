@@ -30,11 +30,15 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Permissions (optional but good practice)
+# Permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
-
-# Artisan commands
-RUN php artisan storage:link
 
 # Expose Apache port
 EXPOSE 80
+
+# Copy and use startup script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+# Run Laravel setup commands and start Apache
+CMD ["/start.sh"]
