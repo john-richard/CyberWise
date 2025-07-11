@@ -35,7 +35,6 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 
 # Artisan commands
 RUN php artisan storage:link
-RUN php artisan migrate --force
 
 # Expose Apache port
 EXPOSE 80
