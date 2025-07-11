@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export PRIME_ACCESS="$PRIME_ACCESS"
+export PRIME_PASSWORD="$PRIME_PASSWORD"
+
 # Optional but recommended
 echo "→ Running artisan storage:link"
 php artisan storage:link

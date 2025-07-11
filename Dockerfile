@@ -39,6 +39,7 @@ EXPOSE 80
 # Copy and use startup script
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+ENTRYPOINT ["/start.sh"]
 
 # Run Laravel setup commands and start Apache
 CMD ["/start.sh"]
