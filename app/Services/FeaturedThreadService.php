@@ -98,15 +98,8 @@ class FeaturedThreadService
         ];
     }
     
-    /**
-     * Create a new featured thread.
-     *
-     * @param  array  $data
-     * @return \App\Models\FeaturedThread
-     */
     public function createFeaturedThread(array $data)
     {
-
         $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
 
         // Check if user is authenticated
@@ -119,28 +112,111 @@ class FeaturedThreadService
             return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
         }
 
-        $data['user_id'] = $user->id;
-
         // Validate input data
-        $this->validateData('create', $data);
+        $this->validateData('create-featured', $data);
 
-        // Ensure the thread exists and is active
-        $thread = Thread::find($data['thread_id']);
+        // Ensure the category exists and is active
+        $categoryThreads = $this->categoryRepository->getCategoryThreads(['categories.id' => $data['featuredCategory']]);
 
-        if (!$thread || $thread->status !== true) {
-            throw new \Exception('Thread is either not found or inactive.');
+        if (!$categoryThreads || $categoryThreads->status !== true) {
+            throw new \Exception('Category is either not found or inactive.');
         }
 
         // Create the featured thread
-        return FeaturedThread::create([
-            'thread_id' => $thread->id,
-            'title' => $data['title'],
-            'content' => $data['content'],
-            'link' => $data['link'],
+        $thread = FeaturedThread::create([
+            'thread_id' => $categoryThreads->thread_id,
+            'title' => $data['featuredTitle'],
+            'content' => $data['featuredContent'],
+            'link' => $data['featuredLink'],
             'status' => true, // Default to true
-            'order' => $data['order']
+            'order' => 1
         ]);
+
+        return [
+            'data' => $thread,
+            'redirect_url' => '/admin/featured-thread',
+        ];
     }
+
+    public function updateFeaturedThread($id, array $data)
+    {
+        $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        // Check if user is authenticated
+        if ($user->role !== 1) {
+            return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
+        }
+
+        // Validate the incoming data
+        $this->validateData('update-featured', $data);
+
+        // Find the thread by ID and update it
+        $thread = FeaturedThread::findOrFail($id);
+        // Check if user is authenticated
+        if (!$thread) {
+            return response()->json(['error' => 'Featured thread not found.'], 404);
+        }
+
+        // Ensure the category exists and is active
+        $categoryThreads = $this->categoryRepository->getCategoryThreads(['categories.id' => $data['featuredCategory']]);
+
+        if (!$categoryThreads || $categoryThreads->status !== true) {
+            throw new \Exception('Category is either not found or inactive.');
+        }
+
+        // Find the thread by ID and update it
+        $payload = [
+            'thread_id' => $categoryThreads->thread_id,
+            'title' => $data['featuredTitle'],
+            'content' => $data['featuredContent'],
+            'link' => $data['featuredLink']
+        ];
+
+        $thread->update($payload);
+
+        return [
+            'data' => $thread,
+            'redirect_url' => '/admin/featured-thread',
+        ];
+    }
+
+    public function deleteFeaturedThread($id)
+    {
+        $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        // Check if user is authenticated
+        if ($user->role !== 1) {
+            return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
+        }
+
+        // Find the thread by ID and update it
+        $thread = FeaturedThread::findOrFail($id);
+
+        // Check if user is authenticated
+        if (!$thread) {
+            return response()->json(['error' => 'Featured thread not found.'], 404);
+        }
+    
+        // Perform soft delete (update status)
+        $thread->status = false;
+        $thread->updated_at = now();
+        $thread->save();
+        
+        return [
+            'data' => $thread,
+            'redirect_url' => '/admin/featured-thread',
+        ];
+    }    
 
     // public function updateThread($id, array $data)
     // {
@@ -448,6 +524,11 @@ class FeaturedThreadService
         return $this->featuredThreadRepository->getTestYourKnowledgeWithFilters($perPage, $filters);
     }
 
+    public function getSelfAssessmentWithFilters(int $perPage = 20, array $filters = [])
+    {
+        return $this->featuredThreadRepository->getSelfAssessmentWithFilters($perPage, $filters);
+    }    
+
     public function submitKnowledgeTest(array $data)
     {
 
@@ -562,7 +643,19 @@ class FeaturedThreadService
                 'knowledgeChoices' => 'required|array|min:4',
                 'knowledgeChoices.*' => 'required|string|max:255',
                 'correctAnswers' => 'required|string|in:0,1,2,3',
-            ],           
+            ], 
+            'create-featured' => [
+                'featuredCategory' => 'required|exists:categories,id',  // Ensure the category exists
+                'featuredTitle' => 'required|string|max:255',
+                'featuredContent' => 'nullable|string',
+                'featuredLink' => 'nullable|url'
+            ],  
+            'update-featured' => [
+                'featuredCategory' => 'required|exists:categories,id',  // Ensure the category exists
+                'featuredTitle' => 'required|string|max:255',
+                'featuredContent' => 'nullable|string',
+                'featuredLink' => 'nullable|url'
+            ],                                
         ];
 
         // Validate the data based on the rules

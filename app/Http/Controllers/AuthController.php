@@ -58,9 +58,23 @@ class AuthController extends Controller
         }
     }
 
+    public function sendResetLink(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+        $this->authService->sendResetLink($request->email);
+        return response()->json(['message' => 'Reset link sent to your email.'], 200);
+    }
+
     public function resetPassword(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'token' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
         $this->authService->resetPassword($request->all());
+
         return response()->json(['message' => 'Password reset successfully'], 200);
     }
 }

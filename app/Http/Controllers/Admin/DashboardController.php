@@ -73,11 +73,23 @@ class DashboardController extends Controller
         $perPage = 3; // Default per-page value
         $featuredThreads = $this->featuredThreadService->getFeaturedThreads([ 'limit' => $perPage ]);
 
+        // get categories 
+        $categories = $this->categoryService->getCategories([
+            'conditions' => [
+                'status' => true,
+                'community_display' => false,
+                'id' => 6 // Featured thread category
+            ],
+            'limit' => 0,
+            'sort' => ['name', 'desc'], // Correct sorting
+        ]);
+
         // Return the view with paginated threads
         return view('admin.featured-thread', [
             'user' => $user,
             'featuredThreads' => $featuredThreads['data'],
-            'pagination' => $featuredThreads['pagination']
+            'pagination' => $featuredThreads['pagination'],
+            'categories' => $categories
         ]);
 
     }
@@ -93,9 +105,12 @@ class DashboardController extends Controller
 
         $perPage = $request->get('per_page', 5); // Default per-page value
 
-        $filters = [
-            'search' => $request->query('search', '')
-        ];
+        $filters = [];
+        $sanitizedSearch = $this->sanitizeSearchInput($request->query('search'));
+
+        if ($sanitizedSearch !== null) {
+            $filters['search'] = $sanitizedSearch;
+        }
 
 
         // get categories 
@@ -113,7 +128,7 @@ class DashboardController extends Controller
         // get learning hub threads
         $threads = $this->featuredThreadService->getLearningHubWithFilters($perPage, $filters);
 
-        \Log::info(" >>>> ". print_r($filters, 1));
+        \Log::info(" >>>> ". print_r($threads, 1));
 
         return view('admin.learning-hub', 
          [
@@ -136,10 +151,12 @@ class DashboardController extends Controller
 
         $perPage = $request->get('per_page', 20); // Default per-page value
 
-        $filters = [
-            'search' => $request->query('search', '')
-        ];
+        $filters = [];
+        $sanitizedSearch = $this->sanitizeSearchInput($request->query('search'));
 
+        if ($sanitizedSearch !== null) {
+            $filters['search'] = $sanitizedSearch;
+        }
 
         // get categories 
         $categories = $this->categoryService->getCategories([
@@ -158,6 +175,51 @@ class DashboardController extends Controller
         $threads = $this->featuredThreadService->getTestYourKnowledgeWithFilters($perPage, $filters);
         
         return view('admin.knowledge', 
+         [
+            'user' => $user,
+            'featuredThreads' => $threads,
+            'filters' => $filters,
+            'categories' => $categories
+        ]);
+
+    }  
+
+    public function getSelfAssessment(Request $request)
+    {
+        $user = Auth::user(); 
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
+
+        $perPage = $request->get('per_page', 20); // Default per-page value
+
+
+        $filters = [];
+        $sanitizedSearch = $this->sanitizeSearchInput($request->query('search'));
+
+        if ($sanitizedSearch !== null) {
+            $filters['search'] = $sanitizedSearch;
+        }
+
+        // get categories 
+        $categories = $this->categoryService->getCategories([
+            'conditions' => [
+                'status' => true, 
+                'community_display' => false,
+                'id' => 9 // Self Assessment category
+            
+            ],
+            'limit' => 0,
+            'sort' => ['name', 'desc'], // Correct sorting
+        ]);
+
+
+        // get learning hub threads
+        $threads = $this->featuredThreadService->getSelfAssessmentWithFilters($perPage, $filters);
+        
+        return view('admin.self-assessment', 
          [
             'user' => $user,
             'featuredThreads' => $threads,
@@ -228,5 +290,25 @@ class DashboardController extends Controller
             'type' => $type
         ]);
     }
+
+    /**
+     * Sanitize the search input to prevent XSS or invalid queries.
+     *
+     * @param string|null $input
+     * @return string|null
+     */
+    private function sanitizeSearchInput(?string $input): ?string
+    {
+        if (!$input) {
+            return null;
+        }
+
+        $input = substr($input, 0, 100); // Limit length to 100 chars
+        $input = strip_tags($input); // Remove HTML tags
+        $input = trim($input); // Trim spaces
+        $input = preg_replace('/\s+/', ' ', $input); // Normalize multiple spaces
+
+        return !empty($input) ? $input : null;
+    }    
 
 }
