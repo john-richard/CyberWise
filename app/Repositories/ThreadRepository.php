@@ -37,6 +37,24 @@ class ThreadRepository
             ->where('threads.status', true)
             ->where('categories.community_display', true);
     
+        // apply search
+        $searchTerm = $filters['search'] ?? '';
+
+        if (!empty($searchTerm)) {
+            // Check if tsquery is empty
+            $tsQuery = DB::selectOne("SELECT websearch_to_tsquery('english', ?) AS query", [$searchTerm])->query;
+        
+            if (empty($tsQuery)) {
+                // Fallback to ILIKE
+                $query->where(function ($q) use ($searchTerm) {
+                    $q->where('threads.title', 'ILIKE', "%{$searchTerm}%")
+                      ->orWhere('threads.content', 'ILIKE', "%{$searchTerm}%");
+                });
+            } else {
+                $query->whereRaw("search_vector @@ websearch_to_tsquery('english', ?)", [$searchTerm]);
+            }
+        }
+        
         // Apply sorting filters
         if (!empty($filters['sortBy'])) {
             switch ($filters['sortBy']) {

@@ -1,24 +1,28 @@
 <?php
 
 namespace App\Services;
-
-use App\Repositories\UserRepository;
 use App\Models\User;
-use App\Notifications\PasswordResetNotification;
+use App\Mail\ResetPasswordMail;
+use App\Repositories\UserRepository;
+use App\Repositories\AuthRepository;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
 
 class AuthService
 {
-    protected $userRepo;
+    protected $userRepository;
+    protected $authRepository;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(UserRepository $userRepository, AuthRepository $authRepository)
     {
-        $this->userRepo = $userRepo;
+        $this->userRepository = $userRepository;
+        $this->authRepository = $authRepository;
     }
 
     public function register(array $data)
@@ -114,8 +118,41 @@ class AuthService
         return ['message' => 'Logged out successfully'];
     }    
 
-    public function resetPassword(array $data)
+    public function sendResetLink($email)
     {
-        // Implement password reset logic with repo if required
+        // Check if the user exists
+        $user = $this->authRepository->findUserByEmail($email);
+        if (!$user) {
+            return ['status' => false, 'message' => 'Email not found'];
+        }
+
+        // Generate reset token
+        $token = Str::random(60);
+        $this->authRepository->storeResetToken($email, $token);
+
+        // Generate reset link
+        $resetUrl = url('/password/reset/' . $token . '?email=' . urlencode($email));
+
+        // Send email
+        Mail::to($email)->send(new ResetPasswordMail($resetUrl));
+
+        return ['status' => true, 'message' => 'Password reset link sent!'];
+    }
+
+    public function resetPassword($email, $token, $newPassword)
+    {
+        // Validate token
+        $resetData = $this->authRepository->getResetToken($email);
+        if (!$resetData || !password_verify($token, $resetData->token)) {
+            return ['status' => false, 'message' => 'Invalid or expired token'];
+        }
+
+        // Update password
+        $this->authRepository->updateUserPassword($email, $newPassword);
+
+        // Delete token after successful reset
+        $this->authRepository->deleteResetToken($email);
+
+        return ['status' => true, 'message' => 'Password has been reset successfully'];
     }
 }

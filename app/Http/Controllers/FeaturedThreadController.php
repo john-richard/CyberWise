@@ -26,28 +26,40 @@ class FeaturedThreadController extends Controller
     }
 
     public function createFeaturedThread(Request $request)
-    {
+    {        
+        
+        \Log::info("Request >> ". print_r($request->all(), 1));
+        
         // Call the service to add a threads
-        $threads = $this->featuredThreadService->createFeaturedThread($request->all());
+        $response = $this->featuredThreadService->createFeaturedThread($request->all());
 
-        return response()->json(['message' => 'Featured Thread added successfully', 'threads' => $threads], 201);
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
     }
 
-    // public function updateFeaturedPost(Request $request, $id)
-    // {
-    //     // Call the service to update the featured post
-    //     $post = $this->postService->updateFeaturedPost($id, $request->all());
+    public function updateFeaturedThread(Request $request, $id)
+    {
+        // Call the service to update learning hub
+        $response = $this->featuredThreadService->updateFeaturedThread($id, $request->all());
 
-    //     return response()->json(['message' => 'Post updated successfully', 'post' => $post]);
-    // }
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+    }
 
-    // public function deleteFeaturedPost($id)
-    // {
-    //     // Call the service to deactivate (soft delete) the featured post
-    //     $this->postService->deactivateFeaturedPost($id);
+    public function deleteFeaturedThread($id)
+    {
+        // Call the service to delete learning hub
+        $response = $this->featuredThreadService->deleteFeaturedThread($id);
 
-    //     return response()->json(['message' => 'Post deactivated successfully']);
-    // }
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+    }
 
     // community learning hub display
     public function showLearningHub(Request $request)
