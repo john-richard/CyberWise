@@ -33,9 +33,38 @@ class CommunityController extends Controller
             'sortBy' => $request->query('sortBy', 'latest'), // Default to 'latest'
         ];
 
+        $sanitizedSearch = $this->sanitizeSearchInput($request->query('search'));
+
+        if ($sanitizedSearch !== null) {
+            $filters['search'] = $sanitizedSearch;
+        }
 
         $threads = $this->threadService->getThreadsWithFilters($perPage, $filters);
 
-        return view('community', compact('threads', 'filters'));
+        return view('community', 
+        [
+           'threads' => $threads,
+           'filters' => $filters
+        ]);
+    }
+
+    /**
+     * Sanitize the search input to prevent XSS or invalid queries.
+     *
+     * @param string|null $input
+     * @return string|null
+     */
+    private function sanitizeSearchInput(?string $input): ?string
+    {
+        if (!$input) {
+            return null;
+        }
+
+        $input = substr($input, 0, 100); // Limit length to 100 chars
+        $input = strip_tags($input); // Remove HTML tags
+        $input = trim($input); // Trim spaces
+        $input = preg_replace('/\s+/', ' ', $input); // Normalize multiple spaces
+
+        return !empty($input) ? $input : null;
     }
 }
