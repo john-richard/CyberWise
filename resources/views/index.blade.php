@@ -154,7 +154,7 @@
           <div class="col-lg-6 order-2 order-lg-1 content">
             <h3>Protect Your Digital World with Cybersecurity</h3>
             <p class="fst-italic">
-            In today’s digital age, ensuring the security of your personal and business data is more important than ever. Cyber threats are constantly evolving, and staying ahead of them requires cutting-edge solutions, awareness, and proactive defense strategies.
+            At CyberWise, we are committed to empowering individuals with the knowledge and skills needed to navigate the digital world safely and effectively. Our platform offers a dynamic learning experience through discussion boards, educational materials, and interactive learning modules. Whether you're looking to enhance your cybersecurity awareness, develop digital literacy, or engage in meaningful discussions about online safety, CyberWise provides the tools and resources to help you stay informed and secure in the ever-evolving digital landscape.
             </p>
             <h5>Why Cybersecurity Matters</h5>
             <ul>
