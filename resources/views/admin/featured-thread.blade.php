@@ -53,7 +53,6 @@
     <link rel="stylesheet" href="{{ asset('dbassets/css/style.css') }}">
     
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body class="">
 	<!-- [ Pre-loader ] start -->
@@ -201,59 +200,6 @@
             <!-- [ breadcrumb ] end -->
             <!-- [ Main Content ] start -->
             <div class="row">
-
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12 text-right">
-                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addNewModal" data-whatever="@getbootstrap">Add New <i class="feather mr-2 icon-plus-circle"></i></button>
-
-                                    <div class="modal fade text-left" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="addNewModalLabel">Create New Entry</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                <form id="createFeaturedForm" name="createFeaturedForm">
-                                                    <div class="form-group">
-                                                        <label for="featuredCategory">Categories</label>
-                                                        <select class="form-control" id="featuredCategory" name="featuredCategory">
-                                                        @foreach ($categories as $category)
-                                                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                                                        @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="featuredTitle" class="col-form-label">Title:</label>
-                                                        <input type="text" class="form-control" name="featuredTitle" id="featuredTitle" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="featuredLink" class="col-form-label">URL:</label>
-                                                        <input type="text" class="form-control" name="featuredLink" id="featuredLink" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="featuredContent" class="col-form-label">Content:</label>
-                                                        <textarea class="form-control" id="featuredContent" name="featuredContent" required></textarea>
-                                                    </div>
-                                                    </form>
-                                                    <div id="error-message" style="color: red; display: none;"></div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary" name="submitCreatefeaturedForm" id="submitCreatefeaturedForm">Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="col-xl-12 col-md-12">
                     <div class="card table-card">
                         <div class="card-header">
@@ -321,34 +267,14 @@
                                                     </div>
                                                 </td>
                                                 <td>
-
                                                 {!! $featuredThread['status'] 
                                                     ? '<strong style="color: #29b765;">Active</strong>' 
                                                     : '<strong style="color: #e74c3c;">Inactive</strong>' !!}
                                                 </td>
                                                 <td class="text-right">
                                                 <div class="text-muted small text-center align-self-center">
-                                                    <span class="d-none d-sm-inline-block">
-                                                        <a 
-                                                        data-whatever="@getbootstrap"
-                                                        data-toggle="modal" 
-                                                        data-target="#addNewModal" 
-                                                        data-thread-id="{{ $featuredThread['id'] }}"
-                                                        data-title="{{ $featuredThread['title'] }}" 
-                                                        data-content="{{ $featuredThread['content'] }}" 
-                                                        data-link="{{ $featuredThread['link'] }}" 
-                                                        data-category-id="{{ $featuredThread['category_id'] ?? '' }}">
-                                                        <i class="far fa-edit text-c-yellow"></i>
-                                                        </a>
-                                                    </span>
-                                                    <span class="comment-btn">
-                                                        <a 
-                                                        data-whatever="@getbootstrap"
-                                                        data-toggle="modal"
-                                                        data-target="#deleteModal"
-                                                        data-thread-id="{{ $featuredThread['id'] }}"
-                                                        ><i class="far fa-trash-can ml-2 text-c-red"></i></a>
-                                                    </span>
+                                                    <span class="d-none d-sm-inline-block"><a href="{{ route('dashboard') }}"><i class="far fa-edit text-c-yellow"></i></a></span>
+                                                    <span class="comment-btn" data-thread-id="{{ $featuredThread['id'] }}"><a href="{{ route('dashboard') }}"><i class="far fa-trash-can ml-2 text-c-red"></i></a></span>
                                                 </div>
                                                 </td>
                                             </tr>
@@ -375,27 +301,6 @@
                                     @endif
                                     </tbody>
                                 </table>
-
-                                <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel">Delete Thread</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p class="mb-0">You are about to delete this entry. Do you want to proceed?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <!-- Include a data-thread-id attribute to hold the thread ID -->
-                                                <button type="button" id="confirmDelete" class="btn btn-primary">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -421,8 +326,6 @@
     <!-- custom-chart js -->
     <script src="{{ asset('dbassets/js/pages/dashboard-main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="{{ asset('assets/js/featured-thread.js') }}"></script>
 
     <script src="{{ asset('assets/js/common.js') }}"></script>
 </body>

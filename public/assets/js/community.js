@@ -14,59 +14,80 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const clearBtn = document.getElementById('clearSearch');
-    const searchInput = document.getElementById('searchFilter');
+//   // Handle the comment icon click
+//   document.querySelectorAll('.comment-btn').forEach(function (commentBtn) {
+//       commentBtn.addEventListener('click', function () {
+//           const threadId = this.getAttribute('data-thread-id');
+//           const repliesContainer = document.getElementById(`replies-container-${threadId}`);
 
-    // Show or hide clear button on page load
-    if (searchInput && searchInput.value.trim() !== '') {
-        clearBtn.style.display = 'inline';
-    }
+//           // Toggle visibility of the replies container
+//           repliesContainer.classList.toggle('d-none');
 
-    // Handle click on clear button
-    clearBtn.addEventListener('click', function (e) {
-        e.preventDefault();
+//           // Fetch replies dynamically if not already loaded
+//           if (!repliesContainer.dataset.loaded) {
+//               fetchReplies(threadId);
+//               repliesContainer.dataset.loaded = true; // Prevent reloading replies
+//           }
+//       });
+//   });
 
-        const url = new URL(window.location.href);
-        url.searchParams.delete('search'); // remove ?search
-        url.hash = 'posts'; // add #posts
+//   // Handle reply submission
+//   document.querySelectorAll('.submit-reply').forEach(function (submitBtn) {
+//       submitBtn.addEventListener('click', function () {
+//           const threadId = this.getAttribute('data-thread-id');
+//           const textarea = document.getElementById(`reply-textarea-${threadId}`);
+//           const replyContent = textarea.value.trim();
 
-        // Optional: visually clear input
-        searchInput.value = '';
+//           if (replyContent) {
+//               submitReply(threadId, replyContent);
+//               textarea.value = ''; // Clear the textarea
+//           }
+//       });
+//   });
 
-        // Redirect to updated URL
-        window.location.href = url.toString();
-    });    
+//   // Function to fetch replies dynamically
+//   async function fetchReplies(threadId) {
+//       const repliesContainer = document.querySelector(`#replies-container-${threadId} .replies-list`);
+//       try {
+//           const response = await fetch(`/api/threads/${threadId}/replies`);
+//           const replies = await response.json();
 
+//           // Display replies
+//           replies.forEach(reply => {
+//               const replyElement = document.createElement('p');
+//               replyElement.classList.add('reply');
+//               replyElement.innerHTML = `<strong>${reply.user.username}:</strong> ${reply.content}`;
+//               repliesContainer.appendChild(replyElement);
+//           });
+//       } catch (error) {
+//           console.error('Failed to fetch replies:', error);
+//       }
+//   }
+
+//   // Function to submit a reply
+//   async function submitReply(threadId, replyContent) {
+//       try {
+//           const response = await fetch(`/api/threads/${threadId}/replies`, {
+//               method: 'POST',
+//               headers: {
+//                   'Content-Type': 'application/json',
+//                   'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Use auth token if required
+//               },
+//               body: JSON.stringify({ content: replyContent })
+//           });
+
+//           if (response.ok) {
+//               const reply = await response.json();
+//               const repliesContainer = document.querySelector(`#replies-container-${threadId} .replies-list`);
+//               const replyElement = document.createElement('p');
+//               replyElement.classList.add('reply');
+//               replyElement.innerHTML = `<strong>${reply.user.username}:</strong> ${reply.content}`;
+//               repliesContainer.appendChild(replyElement);
+//           } else {
+//               console.error('Failed to submit reply:', response.statusText);
+//           }
+//       } catch (error) {
+//           console.error('Error submitting reply:', error);
+//       }
+//   }
 });
-
-let searchTimeout;
-
-document.getElementById('searchFilter').addEventListener('input', function () {
-    clearTimeout(searchTimeout);
-
-    searchTimeout = setTimeout(() => {
-        const filter = this.value.trim();
-        if (!filter) return;
-
-        try {
-            const url = new URL(window.location.href);
-
-            // Remove any existing hash to avoid double #posts
-            url.hash = '';
-
-            const currentSearch = url.searchParams.get('search');
-            if (currentSearch === filter) {
-                // Reload only if the search term hasn't changed
-                window.location.reload();
-            } else {
-                url.searchParams.set('search', filter);
-                url.hash = 'posts'; // Add only one #posts
-                window.location.href = url.toString();
-            }
-        } catch (error) {
-            console.error('Error applying search filter:', error);
-        }
-    }, 1000); // 1 second debounce
-});
-
-

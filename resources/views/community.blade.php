@@ -105,8 +105,8 @@
                         <div class="p-3 h-100">
                             <nav class="nav nav-pills nav-gap-y-1 flex-column">
                                 <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon active">All Threads</a>
-                                {{-- <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Popular this week</a>
-                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Popular all time</a> --}}
+                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Popular this week</a>
+                                <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Popular all time</a>
                             </nav>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                   <!-- Inner main -->
                   <div class="inner-main">
                       <!-- Inner main header -->
-                      {{-- <div class="inner-main-header">
+                      <div class="inner-main-header">
                           <a class="nav-link nav-icon rounded-circle nav-link-faded mr-3 d-md-none" href="#" data-toggle="inner-sidebar"><i class="material-icons">arrow_forward_ios</i></a>
                           <select class="custom-select custom-select-sm w-auto mr-1" id="sort-filter" onchange="applySortFilter()">
                             <option value="latest" {{ $filters['sortBy'] == 'latest' ? 'selected' : '' }}>Latest</option>
@@ -126,39 +126,10 @@
                             <option value="unsolved" {{ $filters['sortBy'] == 'unsolved' ? 'selected' : '' }}>Unsolved</option>
                             <option value="no-replies" {{ $filters['sortBy'] == 'no-replies' ? 'selected' : '' }}>No Replies Yet</option>
                         </select>
-                        <span class="input-icon input-icon-sm ml-auto w-auto">
-                            <a id="clearSearch" href="{{ route('community') }}#posts">Clear Search</a>
-                            <input value="{{ $filters['search'] ?? '' }}" name="searchFilter" id="searchFilter" type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4 mt-4" placeholder="Search forum" />
-                        </span>
-                      </div> --}}
-
-                      <div class="inner-main-header d-flex align-items-center flex-wrap gap-2">
-                        <a class="nav-link nav-icon rounded-circle nav-link-faded mr-3 d-md-none" href="#" data-toggle="inner-sidebar">
-                            <i class="material-icons">arrow_forward_ios</i>
-                        </a>
-                    
-                        <select class="custom-select custom-select-sm w-auto mr-1" id="sort-filter" onchange="applySortFilter()">
-                            <option value="latest" {{ $filters['sortBy'] == 'latest' ? 'selected' : '' }}>Latest</option>
-                            <option value="popular" {{ $filters['sortBy'] == 'popular' ? 'selected' : '' }}>Popular</option>
-                            <option value="solved" {{ $filters['sortBy'] == 'solved' ? 'selected' : '' }}>Solved</option>
-                            <option value="unsolved" {{ $filters['sortBy'] == 'unsolved' ? 'selected' : '' }}>Unsolved</option>
-                            <option value="no-replies" {{ $filters['sortBy'] == 'no-replies' ? 'selected' : '' }}>No Replies Yet</option>
-                        </select>
-                    
-                        <div class="d-flex align-items-center ml-auto" style="gap: 8px;">
-                            <a id="clearSearch" href="#" class="text-sm text-primary" style="display: none;">Clear</a>
-                            <input
-                                value="{{ $filters['search'] ?? '' }}"
-                                name="searchFilter"
-                                id="searchFilter"
-                                type="text"
-                                class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none"
-                                placeholder="Search forum"
-                            />
-                            
-                        </div>
-                    </div>
-
+                          <span class="input-icon input-icon-sm ml-auto w-auto">
+                              <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4 mt-4" placeholder="Search forum" />
+                          </span>
+                      </div>
                       <!-- /Inner main header -->
 
                       <!-- Inner main body -->
@@ -171,7 +142,7 @@
                                 <div class="card-body p-2 p-sm-3">
                                     <div class="media forum-item">
                                         <img src="{{ asset('assets/img/404-cat.jpg') }}" class="mr-3 rounded-circle" width="50" alt="User" />
-                                        <div class="media-body" style="font-size: 15px;">
+                                        <div class="media-body">
                                             <h6>No thread available</h6>
                                         </div>
                                     </div>
@@ -184,7 +155,7 @@
                                 <div class="card-body p-2 p-sm-3">
                                     <div class="media forum-item">
                                         <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="{{ asset('storage/' . $thread->avatar) }}" class="mr-3 rounded-circle" width="50" alt="User" /></a>
-                                        <div class="media-body" style="font-size: 15px;">
+                                        <div class="media-body">
                                             <h6>
                                                 <a target="_blank" data-toggle="collapse" data-target=".forum-content" href="{{ route('show-thread', ['id' => $thread->thread_id, 'thread_name' => $thread->thread_name]) }}#posts" class="text-body">{{ $thread->title }}</a>
                                             </h6>

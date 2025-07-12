@@ -3,12 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add event listener to the search form
     const searchForm = document.getElementById('searchHub');
     if (searchForm) {
-        
-        if(document.getElementById('searchFilter').value == '') {
-            document.getElementById('clearSearch').style.display = 'none';
-        } else {
-            document.getElementById('clearSearch').style.display = 'block';
-        }
         searchForm.addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent default submission
             applySearchFilter();
@@ -118,6 +112,7 @@ async function applySearchFilter() {
 
     // Get the search filter value
     const filter = searchFilterInput.value.trim();
+
     // Prevent submission if the input is empty
     if (!filter) {
         return;
@@ -125,20 +120,16 @@ async function applySearchFilter() {
 
     // Set button to loading state
     searchButton.disabled = true;
-    searchButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span>`;
+    searchButton.innerHTML = `
+        <span class="spinner-border spinner-border-sm" role="status"></span>
+        Loading...
+    `;
 
     try {
         // Update the URL with the search filter and reload the page
         const url = new URL(window.location.href);
-        const currentSearch = url.searchParams.get('search');
-
-        if (currentSearch === filter) {
-            // If the same search term is already applied, force a reload
-            window.location.reload();
-        } else {
-            url.searchParams.set('search', filter);
-            window.location.href = url.toString();
-        }
+        url.searchParams.set('search', filter);
+        window.location.href = url.toString();
     } catch (error) {
         console.error('Error applying search filter:', error);
     } finally {
