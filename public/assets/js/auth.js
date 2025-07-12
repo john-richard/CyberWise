@@ -27,10 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Retrieve the CSRF cookie before making the login request
             await axios.get('/sanctum/csrf-cookie');
 
-            const queryString = window.location.search;
-
             // Make the login request
-            const response = await axios.post('/api/login' + queryString, {
+            const response = await axios.post('/api/login', {
                 username: formData.get('username'),
                 password: formData.get('password'),
             });
@@ -64,4 +62,51 @@ document.addEventListener('DOMContentLoaded', function () {
             errorMessage.style.display = 'block'; // Show error message
         }
     });
+
+    // Add event listener for password reset
+    const resetButton = document.getElementById('sendResetLink');
+    if (resetButton) {
+        resetButton.addEventListener('click', function () {
+            handleForgotPassword();
+        });
+    }
 });
+
+// Function to handle forgot password submission
+async function handleForgotPassword() {
+    const resetEmail = document.getElementById('resetEmail').value;
+    const resetMessage = document.getElementById('resetMessage');
+    const resetUrl = document.querySelector('meta[name="reset-password-url"]').getAttribute('content'); // ✅ Get URL from meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    if (!resetEmail) {
+        resetMessage.innerHTML = '<div class="alert alert-danger">Please enter your email.</div>';
+        resetMessage.style.display = 'block';
+        return;
+    }
+
+    try {
+        const response = await fetch(resetUrl, {  // ✅ Use dynamic URL
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            body: JSON.stringify({ email: resetEmail }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            resetMessage.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+        } else {
+            resetMessage.innerHTML = `<div class="alert alert-danger">${data.message || 'Error sending email.'}</div>`;
+        }
+        resetMessage.style.display = 'block';
+
+    } catch (error) {
+        resetMessage.innerHTML = `<div class="alert alert-danger">An error occurred. Please try again.</div>`;
+        resetMessage.style.display = 'block';
+    }
+}

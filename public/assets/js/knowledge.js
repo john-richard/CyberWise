@@ -1,8 +1,15 @@
 // Wait for the DOM to fully load
 document.addEventListener("DOMContentLoaded", function () {
     // Add event listener to the search form
-    const searchForm = document.getElementById('searchHub');
+    const searchForm = document.getElementById('searchKnowledge');
     if (searchForm) {
+
+        if(document.getElementById('searchFilter').value == '') {
+            document.getElementById('clearSearch').style.display = 'none';
+        } else {
+            document.getElementById('clearSearch').style.display = 'block';
+        }
+
         searchForm.addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent default submission
             applySearchFilter();

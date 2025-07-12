@@ -1,4 +1,5 @@
-	<!-- [ navigation menu ] start -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- [ navigation menu ] start -->
 	<nav class="pcoded-navbar  ">
 		<div class="navbar-wrapper  ">
 			<div class="navbar-content scroll-div " >
@@ -47,9 +48,35 @@
                     <li class="nav-item">
 					    <a href="{{ route('admin.learning-hub') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Learning Hub</span></a>
 					</li>
-					<li class="nav-item">
-					    <a href="{{ route('admin.knowledge') }}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-cloud-lightning"></i></span><span class="pcoded-mtext">Test Your Knowledge</span></a>
-					</li>                   
+					<li class="nav-item pcoded-hasmenu">
+						<a href="#" class="nav-link"><span class="pcoded-micon"><i class="feather icon-cloud-lightning"></i></span>
+							<span class="pcoded-mtext">Test Your Knowledge</span>
+						</a>
+						<ul class="pcoded-submenu">
+							<li>
+								<a href="{{ route('admin.knowledge') }}">Quiz #1</a>
+							</li>
+							<li>
+								<a href="{{ route('admin.self-assessment') }}">Self Assessment</a>
+							</li>
+						</ul>
+					</li>
+
+					{{-- <li class="nav-item pcoded-hasmenu">
+						<a href="{{ route('admin.knowledge.quiz', 'quiz-1') }}" class="nav-link">
+							<span class="pcoded-micon"><i class="feather icon-cloud-lightning"></i></span>
+							<span class="pcoded-mtext">Test Your Knowledge</span>
+						</a>
+						<ul class="pcoded-submenu">
+							<li>
+								<a href="{{ route('admin.knowledge.quiz', 'quiz-1') }}">Quiz #1</a>
+							</li>
+							<li>
+								<a href="{{ route('admin.knowledge.quiz', 'quiz-2') }}">Self Assessment</a>
+							</li>
+						</ul>
+					</li> --}}
+
 				</ul>
 				
 			</div>

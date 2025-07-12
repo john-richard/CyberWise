@@ -820,7 +820,7 @@ section,
 --------------------------------------------------------------*/
 .hero {
   width: 100%;
-  min-height: 100vh;
+  min-height: 60vh;
   position: relative;
   padding: 120px 0 80px 0;
   display: flex;
@@ -1605,6 +1605,7 @@ section,
   padding: 5px 10px;
   border-radius: 5px;
   transition: color 0.3s ease, background 0.3s ease;
+  text-shadow: 2px 2px 5px black;
 }
 
 /* Text hover effect */
