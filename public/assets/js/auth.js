@@ -27,8 +27,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // Retrieve the CSRF cookie before making the login request
             await axios.get('/sanctum/csrf-cookie');
 
+            const queryString = window.location.search;
+
             // Make the login request
-            const response = await axios.post('/api/login', {
+            const response = await axios.post('/api/login' + queryString, {
                 username: formData.get('username'),
                 password: formData.get('password'),
             });
