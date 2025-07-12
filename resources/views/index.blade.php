@@ -88,7 +88,7 @@
             <div class="aservice-list">
               <a href="/#features" class="info-link">
                 <div class="list-img">
-                  <div class="list-info">What's<br>New</div>
+                  <div class="list-info">What's<br>New?</div>
                   <img src="{{ asset('assets/img/about/service-1.png') }}" class="img-fluid" alt="">
                 </div>
               </a>
@@ -176,7 +176,7 @@
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Features</h2>
-        <p>Hot Topics</p>
+        <p>What's New?</p>
       </div><!-- End Section Title -->
 
       <div class="container">
@@ -205,7 +205,7 @@
                               <p>
                                   {{ $featuredThread['content'] }}
                                   @if(!empty($featuredThread['link']))
-                                      <a href="{{ $featuredThread['link'] }}" class="learn-more-link">Learn More</a>
+                                      <a target="_blank" href="{{ $featuredThread['link'] }}" class="learn-more-link">Learn More</a>
                                   @endif
                               </p>
                           </div>
@@ -234,7 +234,7 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
             <div class="team-member">
               <div class="member-img">
-                <img src="{{ asset('assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
+                <img src="{{ asset('assets/img/team/team-1-mio.jpg') }}" class="img-fluid" alt="">
                 <div class="social">
                   <a href=""><i class="bi bi-twitter-x"></i></a>
                   <a href=""><i class="bi bi-facebook"></i></a>
@@ -288,7 +288,7 @@
               <i class="bi bi-envelope flex-shrink-0"></i>
               <div>
                 <h3>Email Us</h3>
-                <p>info@example.com</p>
+                <p>2024-1-01955@lpu.edu.ph</p>
               </div>
             </div><!-- End Info Item -->
 
