@@ -216,6 +216,9 @@
                                             <span class="spinner-border spinner-border-sm" role="status"></span>
                                             Loading...
                                         </button>
+                                        <div class="col-md-3 d-flex align-items-center">
+                                            <a style="display: none;" id="clearSearch" href="{{ route('admin.learning-hub') }}#features">Clear</a>
+                                          </div>
                                     </form>
                                 </div>
                                 <div class="col-md-6 text-right">

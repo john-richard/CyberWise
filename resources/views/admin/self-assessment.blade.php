@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Cyberwise Test Your Knowledge | Build a Safer and Smarter Online Community</title>
+    <title>Cyberwise Self Assessment | Build a Safer and Smarter Online Community</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
@@ -187,11 +187,11 @@
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="page-header-title">
-                                <h5 class="m-b-10">Test Your Knowledge</h5>
+                                <h5 class="m-b-10">Self Assessment</h5>
                             </div>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="feather icon-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="#!">Test Your Knowledge</a></li>
+                                <li class="breadcrumb-item"><a href="#!">Self Assessment</a></li>
                             </ul>
                         </div>
                     </div>
@@ -217,8 +217,8 @@
                                             Loading...
                                         </button>
                                         <div class="col-md-3 d-flex align-items-center">
-                                            <a style="display: none;" id="clearSearch" href="{{ route('admin.knowledge') }}#features">Clear</a>
-                                        </div>                                        
+                                            <a style="display: none;" id="clearSearch" href="{{ route('admin.self-assessment') }}#features">Clear</a>
+                                        </div>                                            
                                     </form>
                                 </div>
                                 <div class="col-md-6 text-right">
@@ -280,7 +280,7 @@
                 <div class="col-xl-12 col-md-12">
                     <div class="card table-card">
                         <div class="card-header">
-                            <h5>Test Your Knowledge</h5>
+                            <h5>Self Assessment</h5>
                             <div class="card-header-right">
                                 <div class="btn-group card-option">
                                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

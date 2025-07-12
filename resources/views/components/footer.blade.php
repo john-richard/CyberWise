@@ -11,7 +11,7 @@
           <p>San Antonio, Santo Tomas</p>
           <p>Batangas, PH 4234</p>
           <p class="mt-3"><strong>Phone:</strong> <span>+63 998 884 3247</span></p>
-          <p><strong>Email:</strong> <span>info@example.com</span></p>
+          <p><strong>Email:</strong> <span>2024-1-01955@lpu.edu.ph</span></p>
         </div>
         <div class="social-links d-flex mt-4">
           <a href=""><i class="bi bi-twitter-x"></i></a>
@@ -26,7 +26,6 @@
         <ul>
           <li><i class="bi bi-chevron-right"></i> <a href="#hero"> Home</a></li>
           <li><i class="bi bi-chevron-right"></i> <a href="#about"> About</a></li>
-          <li><i class="bi bi-chevron-right"></i> <a href="#features"> Features</a></li>
           <li><i class="bi bi-chevron-right"></i> <a href="#team"> Team</a></li>
           <li><i class="bi bi-chevron-right"></i> <a href="#contact"> Contact</a></li>
         </ul>
@@ -49,7 +48,7 @@
 
 <div class="copyright">
   <div class="container text-center">
-    <p>© <span>Copyright</span> <strong class="px-1 sitename">CW</strong> <span>All Rights Reserved</span></p>
+    <p>© {{ date('Y') }} <span>Copyright</span> <strong class="px-1 sitename">CW</strong> <span>All Rights Reserved</span></p>
 
   </div>
 </div>

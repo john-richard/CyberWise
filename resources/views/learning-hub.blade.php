@@ -95,13 +95,15 @@
 
             <form class="php-email-form" data-aos="fade-up" data-aos-delay="200" id="searchHub" name="searchHub">
               <div class="row gy-4">
-                <div class="col-md-8">
+                <div class="col-md-3 d-flex align-items-center">
+                  <a id="clearSearch" href="{{ route('learning-hub') }}#features">Clear Search</a>
+                </div>
+                <div class="col-md-5">
                   <input value="{{ $filters['search'] ?? '' }}" type="text" class="form-control" name="searchFilter" id="searchFilter" placeholder="Search term" required >
                 </div>
                 <div class="col-md-4 d-flex justify-content-end">
                   <button class="btn btn-primary mb-2" type="submit" id="searchButton" disabled>
                       <span class="spinner-border spinner-border-sm" role="status"></span>
-                      Loading...
                   </button>
                 </div>
               </div>
@@ -133,7 +135,7 @@
                           <p>
                               {{ $featuredThread->content }}
                               @if(!empty($featuredThread->link))
-                                  <a href="{{ $featuredThread->link }}" class="learn-more-link">Learn More</a>
+                                  <a target="_blank" href="{{ $featuredThread->link }}" class="learn-more-link">Learn More</a>
                               @endif
                           </p>
                       </div>
