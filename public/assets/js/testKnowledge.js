@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         } catch (error) {
             console.error("Error submitting form:", error);
-            alert("An error occurred. Please try again later.");
+            alert("Please login first before proceeding to the quiz.");
         } finally {
             // Hide loading button and show submit button
             if (calculateBtn) calculateBtn.style.display = "none";
