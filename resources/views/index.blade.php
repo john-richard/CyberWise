@@ -152,10 +152,10 @@
             <img src="{{ asset('assets/img/about.jpg') }}" class="img-fluid" alt="">
           </div>
           <div class="col-lg-6 order-2 order-lg-1 content">
-            At CyberWise, we are committed to empowering individuals with the knowledge and skills needed to navigate the digital world safely and effectively. Our platform offers a dynamic learning experience through discussion boards, educational materials, and interactive learning modules. Whether you're looking to enhance your cybersecurity awareness, develop digital literacy, or engage in meaningful discussions about online safety, CyberWise provides the tools and resources to help you stay informed and secure in the ever-evolving digital landscape.
-            {{-- <h3>Protect Your Digital World with Cybersecurity</h3>
+           {{-- At CyberWise, we are committed to empowering individuals with the knowledge and skills needed to navigate the digital world safely and effectively. Our platform offers a dynamic learning experience through discussion boards, educational materials, and interactive learning modules. Whether you're looking to enhance your cybersecurity awareness, develop digital literacy, or engage in meaningful discussions about online safety, CyberWise provides the tools and resources to help you stay informed and secure in the ever-evolving digital landscape. --}}
+            <h3>Protect Your Digital World with Cybersecurity</h3>
             <p class="fst-italic">
-            In today’s digital age, ensuring the security of your personal and business data is more important than ever. Cyber threats are constantly evolving, and staying ahead of them requires cutting-edge solutions, awareness, and proactive defense strategies.
+            At CyberWise, we are committed to empowering individuals with the knowledge and skills needed to navigate the digital world safely and effectively. Our platform offers a dynamic learning experience through discussion boards, educational materials, and interactive learning modules. Whether you're looking to enhance your cybersecurity awareness, develop digital literacy, or engage in meaningful discussions about online safety, CyberWise provides the tools and resources to help you stay informed and secure in the ever-evolving digital landscape.
             </p>
             <h5>Why Cybersecurity Matters</h5>
             <ul>
@@ -163,7 +163,7 @@
               <li><i class="bi bi-check2-all"></i> <span><strong>Business Continuity:</strong> Mitigate the risk of disruptions due to cyberattacks, ensuring your operations run smoothly.</span></li>
               <li><i class="bi bi-check2-all"></i> <span><strong>Customer Trust:</strong> Build and maintain trust with your clients by protecting their personal data and privacy.</span></li>
               <li><i class="bi bi-check2-all"></i> <span><strong>Regulatory Compliance:</strong> Stay compliant with legal regulations such as GDPR and HIPAA to avoid costly penalties.</span></li>
-            </ul> --}}
+            </ul>
           </div>
         </div>
 
