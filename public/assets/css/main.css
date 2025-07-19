@@ -1651,6 +1651,163 @@ section,
   bottom: 15px;
 }
 
+/*--------------------------------------------------------------
+# C-Service Section
+--------------------------------------------------------------*/
+.cservice .ccontainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* .cservice .row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+} */
+
+.cservice .col-lg-3,
+.cservice .col-md-6 {
+  flex: 1 1 250px;
+  max-width: 100%;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cservice .list-img {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Ensure the images and text are responsive */
+.cservice .list-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.cservice .cservice-list {
+  overflow: hidden;
+  border-radius: 5px;
+  height: 100%;
+}
+
+.cservice .cservice-list .list-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.cservice .cservice-list .social {
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  right: 0;
+  opacity: 0;
+  transition: ease-in-out 0.3s;
+  text-align: center;
+}
+
+.cservice .cservice-list .social a {
+  background: color-mix(in srgb, var(--contrast-color), transparent 25%);
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  margin: 0 3px;
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  transition: ease-in-out 0.3s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cservice .cservice-list .social a:hover {
+  color: var(--contrast-color);
+  background: var(--accent-color);
+}
+
+.cservice .cservice-list .social i {
+  font-size: 18px;
+  line-height: 0;
+}
+
+/* Ensure anchor covers entire block */
+.cservice .info-link {
+  display: block; /* Make the anchor a block element */
+  text-decoration: none; /* Remove underline */
+  position: relative; /* For child element positioning */
+  overflow: hidden; /* Clip any child overflow */
+  transition: transform 0.3s ease; /* Add a zoom effect */
+}
+
+/* Hover effect for the entire block */
+.cservice .info-link:hover {
+  transform: scale(1.03); /* Slight zoom effect on hover */
+}
+
+/* Style for text inside the block */
+.cservice .list-info {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  color: white;
+  font-size: 30px;
+  font-family: var(--nav-font);
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: color 0.3s ease, background 0.3s ease;
+  text-shadow: 2px 2px 5px black;
+}
+
+/* Text hover effect */
+.cservice .info-link:hover .list-info {
+  color: var(--nav-hover-color);
+}
+
+/* Image inside the block */
+.cservice .list-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Zoom effect for the image on hover */
+.cservice .info-link:hover img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .cservice .list-info {
+    font-size: 18px;
+    padding: 5px;
+  }
+}
+
+.cservice .cservice-list .list-info h4 {
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.cservice .cservice-list .list-info span {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+}
+
+.cservice .cservice-list:hover .social {
+  opacity: 1;
+  bottom: 15px;
+}
+
 
 /*--------------------------------------------------------------
 # Contact Section

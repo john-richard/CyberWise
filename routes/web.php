@@ -34,6 +34,8 @@ Route::get('/community', [CommunityController::class, 'index'])->name('community
 
 Route::get('/learning-hub', [FeaturedThreadController::class, 'showLearningHub'])->name('learning-hub');
 
+Route::get('/challenges', [FeaturedThreadController::class, 'challenges'])->name('challenges');
+
 Route::get('/knowledge', [FeaturedThreadController::class, 'takeKnowledgeTest'])->name('knowledge');
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -54,7 +56,10 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::get('/admin/learning-hub', [DashboardController::class, 'getLearningHub'])->name('admin.learning-hub');   
 
     // Admin get test you knowledge
-    Route::get('/admin/knowledge', [DashboardController::class, 'getTestYourKnowledge'])->name('admin.knowledge');   
+    Route::get('/admin/knowledge', [DashboardController::class, 'getTestYourKnowledge'])->name('admin.knowledge');
+
+    // Admin get self assessment
+    Route::get('/admin/self-assessment', [DashboardController::class, 'getSelfAssessment'])->name('admin.self-assessment');       
 
     // Admin get threads
     Route::get('/admin/threads', [DashboardController::class, 'getThreads'])->name('admin.threads');       

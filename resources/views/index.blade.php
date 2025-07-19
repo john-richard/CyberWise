@@ -108,7 +108,7 @@
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
             <div class="aservice-list">
-              <a href="{{ route('knowledge') }}#features" class="info-link">
+              <a href="{{ route('challenges') }}#features" class="info-link">
                 <div class="list-img">
                   <div class="list-info">Let's test<br>your<br>knowledge</div>
                   <img src="{{ asset('assets/img/about/service-3.png') }}" class="img-fluid" alt="">
@@ -131,10 +131,6 @@
       </div>
     </section>
     <!-- /Team Section -->
-
-
-
-
 
     <!-- About Section -->
     <section id="about" class="about section">

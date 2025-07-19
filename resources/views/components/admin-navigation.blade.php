@@ -54,7 +54,7 @@
 						</a>
 						<ul class="pcoded-submenu">
 							<li>
-								<a href="{{ route('admin.knowledge') }}">Quiz #1</a>
+								<a href="{{ route('admin.knowledge') }}">Basic Knowledge</a>
 							</li>
 							<li>
 								<a href="{{ route('admin.self-assessment') }}">Self Assessment</a>

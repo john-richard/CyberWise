@@ -90,6 +90,34 @@ class FeaturedThreadController extends Controller
         ]);
     }
 
+    public function challenges(Request $request)
+    {
+        $perPage = 10; // Default per-page value
+
+        $filters = [
+            'search' => $request->query('search', ''),
+            'orderBy' => 'random'
+        ];
+
+        // get learning hub threads
+        $threads = $this->featuredThreadService->getTestYourKnowledgeWithFilters($perPage, $filters);
+
+
+        $threadsArray = $threads->items();
+        if (!empty($threadsArray) && isset($threadsArray[0])) {
+            $threadTitle = $threadsArray[0]->thread_title;
+        } else {
+            $threadTitle = 'No threads available'; // Provide a fallback value
+        }
+
+        return view('challenges', 
+        [
+           'featuredThreads' => $threads,
+           'threadTitle' => $threadTitle,
+           'filters' => $filters
+        ]);
+    }
+
     public function takeKnowledgeTest(Request $request)
     {
         $perPage = 10; // Default per-page value
