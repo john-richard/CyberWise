@@ -160,6 +160,50 @@ class FeaturedThreadController extends Controller
 
     }
 
+    public function takeSelfAssessmentTest(Request $request)
+    {
+        $perPage = 10; // Default per-page value
+
+        $filters = [
+            'search' => $request->query('search', ''),
+            'orderBy' => 'random'
+        ];
+
+        // get learning hub threads
+        $threads = $this->featuredThreadService->getSelfAssessmentWithFilters($perPage, $filters);
+
+
+        $threadsArray = $threads->items();
+        if (!empty($threadsArray) && isset($threadsArray[0])) {
+            $threadTitle = $threadsArray[0]->thread_title;
+        } else {
+            $threadTitle = 'No threads available'; // Provide a fallback value
+        }
+
+        return view('self-assessment', 
+        [
+           'featuredThreads' => $threads,
+           'threadTitle' => $threadTitle,
+           'filters' => $filters
+        ]);
+    }
+
+    public function submitSelfAssessmentTest(Request $request)
+    {
+        $data = $request->all();
+
+        // submit test your knowledge
+        $response = $this->featuredThreadService->submitKnowledgeTest($data);
+
+        if (isset($response['error'])) {
+            return response()->json($response, 401);
+        }
+        return response()->json($response, 200);
+
+    }
+
+
+    // Admin
     public function createLearningHub(Request $request)
     {
         // Call the service to add learning hub

@@ -38,6 +38,8 @@ Route::get('/challenges', [FeaturedThreadController::class, 'challenges'])->name
 
 Route::get('/knowledge', [FeaturedThreadController::class, 'takeKnowledgeTest'])->name('knowledge');
 
+Route::get('/self-assessment', [FeaturedThreadController::class, 'takeSelfAssessmentTest'])->name('self-assessment');
+
 Route::middleware(['auth:sanctum'])->group(function () {
     // Thread
     Route::get('/thread', [ThreadController::class, 'index'])->name('thread');
