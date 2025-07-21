@@ -89,7 +89,7 @@
         <div class="row gy-4">
           <div class="col-lg-6">
             <h2><a href="{{ route('challenges') }}#features" class="info-link">Test Your Knowledge</a></h2>
-            <p>Basic Knowledge</p>
+            <p>Self Assessment</p>
           </div>
         </div>
       </div><!-- End Section Title -->

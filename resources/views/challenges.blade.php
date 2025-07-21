@@ -105,8 +105,8 @@
             <div class="cservice-list">
               <a href="{{ route('knowledge') }}#features" class="info-link">
                 <div class="list-img">
+                  <img src="{{ asset('assets/img/challenges/challenge-1.png') }}" class="img-fluid" alt="">
                   <div class="list-info">Basic Knowledge</div>
-                  <img src="{{ asset('assets/img/about/service-1.png') }}" class="img-fluid" alt="">
                 </div>
               </a>
             </div>
@@ -114,10 +114,10 @@
 
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
             <div class="cservice-list">
-              <a href="{{ route('knowledge') }}#features" class="info-link">
+              <a href="{{ route('self-assessment') }}#features" class="info-link">
                 <div class="list-img">
+                  <img src="{{ asset('assets/img/challenges/challenge-2.png') }}" class="img-fluid" alt="">
                   <div class="list-info">Self Assessment</div>
-                  <img src="{{ asset('assets/img/about/service-2.png') }}" class="img-fluid" alt="">
                 </div>
               </a>
             </div>
