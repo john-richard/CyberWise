@@ -275,6 +275,7 @@ async function handleKnowledgeFormSubmission() {
             if (response?.data?.errorInfo) {
                 alert(`ERROR> ${response.data.errorInfo.ERROR}`);
             } else {
+                alert( response.data.redirect_url);
                 window.location.href = response.data.redirect_url;
             }
 
