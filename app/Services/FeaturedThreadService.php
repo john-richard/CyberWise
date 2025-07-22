@@ -373,63 +373,66 @@ class FeaturedThreadService
      */
     public function createTestYourKnowledge($request)
     {
-        $data = $request->all();
-        \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
+        try {
+            $data = $request->all();
+            \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
 
-        $user = Auth::guard('sanctum')->user(); 
-        return [
-            'data' => $user,
-            'redirect_url' => '/admin/knowledge',
-        ];
+            $user = Auth::guard('sanctum')->user(); 
 
-        \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
+            \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
 
-        // Check if user is authenticated
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+            // Check if user is authenticated
+            if (!$user) {
+                return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+            }
+
+            // Check if user is authenticated
+            if ($user->role !== 1) {
+                return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
+            }
+
+            // Validate input data
+            $this->validateData('create-knowledge', $data);
+
+            // Ensure the category exists and is active
+            $categoryThreads = $this->categoryRepository->getCategoryThreads(['categories.id' => $data['knowledgeCategory']]);
+
+            if (!$categoryThreads || $categoryThreads->status !== true) {
+                throw new \Exception('Category is either not found or inactive.');
+            }
+
+            $choices = [];
+            $letters = ['a', 'b', 'c', 'd']; // Assigning A, B, C, D dynamically
+
+            foreach ($request->knowledgeChoices as $index => $choice) {
+                $choices[$letters[$index]] = $choice;
+            }
+
+            // Correct answer is the checked one
+            $correctAnswerKey = $letters[$request->correctAnswers[0]];
+
+            // Create the featured thread
+            $thread = FeaturedThread::create([
+                'thread_id' => $categoryThreads->thread_id,
+                'title' => $data['knowledgeTitle'],
+                'metadata' => json_encode([
+                    'choices' => $choices,
+                    'answer' => $correctAnswerKey,
+                ]),
+                'status' => true, // Default to true
+                'order' => 1
+            ]);
+
+            return [
+                'data' => $thread,
+                'redirect_url' => '/admin/knowledge',
+            ];
+        } catch (\Exception $e) {
+            return [
+                'data' => $e,
+                'redirect_url' => '/admin/knowledge',
+            ];
         }
-
-        // Check if user is authenticated
-        if ($user->role !== 1) {
-            return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
-        }
-
-        // Validate input data
-        $this->validateData('create-knowledge', $data);
-
-        // Ensure the category exists and is active
-        $categoryThreads = $this->categoryRepository->getCategoryThreads(['categories.id' => $data['knowledgeCategory']]);
-
-        if (!$categoryThreads || $categoryThreads->status !== true) {
-            throw new \Exception('Category is either not found or inactive.');
-        }
-
-        $choices = [];
-        $letters = ['a', 'b', 'c', 'd']; // Assigning A, B, C, D dynamically
-
-        foreach ($request->knowledgeChoices as $index => $choice) {
-            $choices[$letters[$index]] = $choice;
-        }
-
-        // Correct answer is the checked one
-        $correctAnswerKey = $letters[$request->correctAnswers[0]];
-
-        // Create the featured thread
-        $thread = FeaturedThread::create([
-            'thread_id' => $categoryThreads->thread_id,
-            'title' => $data['knowledgeTitle'],
-            'metadata' => json_encode([
-                'choices' => $choices,
-                'answer' => $correctAnswerKey,
-            ]),
-            'status' => true, // Default to true
-            'order' => 1
-        ]);
-
-        return [
-            'data' => $thread,
-            'redirect_url' => '/admin/knowledge',
-        ];
     }
 
     public function updateTestYourKnowledge($id, $request)

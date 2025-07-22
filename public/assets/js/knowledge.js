@@ -271,7 +271,7 @@ async function handleKnowledgeFormSubmission() {
             console.log(response.data);
             errorMessage.textContent = "";
             errorMessage.style.display = "none";
-            window.location.href = response.data.redirect_url;
+            //window.location.href = response.data.redirect_url;
         } catch (error) {
             const errorData = error.response?.data || {};
             errorMessage.textContent = errorData.error || "An error occurred. Please try again.";
