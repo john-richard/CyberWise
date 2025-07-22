@@ -375,11 +375,8 @@ class FeaturedThreadService
     {
         try {
             $data = $request->all();
-            \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
 
-            $user = Auth::guard('sanctum')->user(); 
-
-            \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
+            $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
 
             // Check if user is authenticated
             if (!$user) {
@@ -422,7 +419,6 @@ class FeaturedThreadService
                 'status' => true, // Default to true
                 'order' => 1
             ]);
-
             return [
                 'data' => $thread,
                 'redirect_url' => '/admin/knowledge',
