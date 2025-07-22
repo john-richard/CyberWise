@@ -376,14 +376,16 @@ class FeaturedThreadService
         $data = $request->all();
 
         \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
+        
+        $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
         \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
-        // $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
 
+        return $data;
         // // Check if user is authenticated
         // if (!$user) {
         //     return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
         // }
-return $data;
+
         // // Check if user is authenticated
         // if ($user->role !== 1) {
         //     return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
