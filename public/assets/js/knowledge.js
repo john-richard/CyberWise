@@ -268,7 +268,7 @@ async function handleKnowledgeFormSubmission() {
                     },
                 });
             }
-            
+            console.log(response.data);
             errorMessage.textContent = "";
             errorMessage.style.display = "none";
             window.location.href = response.data.redirect_url;
