@@ -377,7 +377,10 @@ class FeaturedThreadService
         \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
 
         $user = Auth::guard('sanctum')->user(); 
-        return $user;
+        return [
+            'data' => $user,
+            'redirect_url' => '/admin/knowledge',
+        ];
 
         \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
 
