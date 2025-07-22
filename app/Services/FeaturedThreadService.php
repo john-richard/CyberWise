@@ -376,8 +376,14 @@ class FeaturedThreadService
         $data = $request->all();
 
         \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
-        
+        $u = Auth::user();
+return response()->json([$u], 401);
+
+
         $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
+
+        
+
         \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
 
         // return $user;
