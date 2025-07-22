@@ -374,7 +374,7 @@ class FeaturedThreadService
     public function createTestYourKnowledge($request)
     {
         $data = $request->all();
-
+return response()->json(['error' => 'Nothing here!','data'=>$data], 401);
         // \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
 
         // $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
