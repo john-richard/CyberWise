@@ -374,22 +374,21 @@ class FeaturedThreadService
     public function createTestYourKnowledge($request)
     {
         $data = $request->all();
-return response()->json(['error' => 'Nothing here!','data'=>$data], 401);
-        // \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
+        \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
 
-        // $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
+        $user = Auth::guard('sanctum')->user(); 
 
-        // \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
+        \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
 
-        // // Check if user is authenticated
-        // if (!$user) {
-        //     return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
-        // }
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
+        }
 
-        // // Check if user is authenticated
-        // if ($user->role !== 1) {
-        //     return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
-        // }
+        // Check if user is authenticated
+        if ($user->role !== 1) {
+            return response()->json(['error' => 'Admin access is required. Please log in with an authorized account'], 401);
+        }
 
         // Validate input data
         $this->validateData('create-knowledge', $data);

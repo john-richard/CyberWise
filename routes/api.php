@@ -19,7 +19,7 @@ Route::get('/threads', [ThreadController::class, 'getThreads']);
 // Get Featured Threads
 Route::get('/featured-threads', [FeaturedThreadController::class, 'getFeaturedThreads']);
 
-Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
     Route::get('/users', [UserController::class, 'index']); // List all users
     Route::post('/users', [UserController::class, 'store']); // Create a new user
     Route::get('/users/{id}', [UserController::class, 'show']); // Get details of a user
