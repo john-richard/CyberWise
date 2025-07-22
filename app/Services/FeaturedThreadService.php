@@ -380,7 +380,7 @@ class FeaturedThreadService
         $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
         \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
 
-        return $data;
+        return $user;
         // // Check if user is authenticated
         // if (!$user) {
         //     return response()->json(['error' => 'Unauthorized. Please log in.'], 401);
