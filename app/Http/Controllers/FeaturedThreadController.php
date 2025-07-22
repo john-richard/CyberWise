@@ -240,6 +240,8 @@ class FeaturedThreadController extends Controller
     {
         // Call the service to add learning hub
         $response = $this->featuredThreadService->createTestYourKnowledge($request);
+        return response()->json($response, 200);
+
         if (isset($response['error'])) {
             return response()->json($response, 401);
         }
