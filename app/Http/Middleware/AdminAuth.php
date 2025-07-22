@@ -20,6 +20,9 @@ class AdminAuth
     {
         // Check for session authentication
         $user = Auth::user();
+
+return response()->json([$user], 401);
+
         if ($user && $user->role === 1) {
             return $next($request);
         }
