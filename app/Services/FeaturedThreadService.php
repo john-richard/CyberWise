@@ -375,6 +375,8 @@ class FeaturedThreadService
     {
         $data = $request->all();
 
+        \Log::info("createTestYourKnowledge data > ". print_r($data, 1));
+        \Log::info("createTestYourKnowledge user > ". print_r($user, 1));
         $user = Auth::user() ?: Auth::guard('sanctum')->user(); 
 
         // Check if user is authenticated
