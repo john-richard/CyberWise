@@ -68,7 +68,7 @@ class FeaturedThreadController extends Controller
 
         $filters = [
             'search' => $request->query('search', ''),
-            'orderBy' => ['featured_threads.id', 'ASC']
+            'orderBy' => ['featured_threads.order', 'ASC']
         ];
 
         // get learning hub threads
