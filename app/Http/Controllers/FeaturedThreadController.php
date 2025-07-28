@@ -120,7 +120,7 @@ class FeaturedThreadController extends Controller
 
     public function takeKnowledgeTest(Request $request)
     {
-        $perPage = 10; // Default per-page value
+        $perPage = 15; // Default per-page value
 
         $filters = [
             'search' => $request->query('search', ''),
@@ -162,7 +162,7 @@ class FeaturedThreadController extends Controller
 
     public function takeSelfAssessmentTest(Request $request)
     {
-        $perPage = 10; // Default per-page value
+        $perPage = 15; // Default per-page value
 
         $filters = [
             'search' => $request->query('search', ''),

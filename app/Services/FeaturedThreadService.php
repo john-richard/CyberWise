@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Validator;
 class FeaturedThreadService
 {
     const BADGE = [
-        [0, 2, "Hacker's Best Friend", 'Your info is already on the dark web.', "hackerbf"],
-        [3, 5, "Cyber Risky", 'Your password is probably "Fluffy123".', "cyberrisk"],
-        [6, 7, "Cyber Defender", "You're on the right track!", "cyberdefender"],
-        [8, 8, "Cybersecurity Wizard", 'Hackers fear you.', "cyberwiz"],
+        [0, 6, "Hacker's Best Friend", 'Needs Improvement. Visit the <a href="/community#posts">CyberWise Learning Hub</a> and explore key topics in cybersecurity.', "hackerbf"],
+        [7, 9, "Cyber Risky", ' Fair. Consider reviewing the learning modules to improve your digital safety.', "cyberrisk"],
+        [10, 12, "Cyber Defender", "Good. You know the basics but there's room to strengthen your knowledge.", "cyberdefender"],
+        [13, 15, "Cybersecurity Wizard", 'Excellent! You have strong cybersecurity awareness.', "cyberwiz"],
     ];
 
     protected $threadRepository;
