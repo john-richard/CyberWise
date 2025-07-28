@@ -88,6 +88,7 @@ class FeaturedThreadRepository
             ->join('categories', 'thread_categories.category_id', '=', 'categories.id')
             ->join('users', 'threads.user_id', '=', 'users.id')
             ->where('threads.status', true)
+            ->where('featured_threads.status', true)
             ->where('categories.id', 8); // Test Your Knowledge category
     
         // apply search
@@ -158,6 +159,7 @@ class FeaturedThreadRepository
             ->join('categories', 'thread_categories.category_id', '=', 'categories.id')
             ->join('users', 'threads.user_id', '=', 'users.id')
             ->where('threads.status', true)
+            ->where('featured_threads.status', true)
             ->where('categories.id', 9); // Self Assessment category
     
         // apply search
