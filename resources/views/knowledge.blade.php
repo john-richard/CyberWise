@@ -108,7 +108,7 @@
                     <form id="testKnowledgeForm" name="testKnowledgeForm">
                         @foreach ($featuredThreads as $index => $featuredThread)
                             <div class="carousel-item @if($index == 0 ) active @endif">
-                                <img class="img-fluid d-block w-100" src="{{ asset('dbassets/images/slider/img-slide-1.jpg') }}" alt="First slide">
+                                <img class="img-fluid d-block w-100" src="{{ asset('dbassets/images/slider/img-slide-1.jpg') }}?v={{ time() }}" alt="First slide">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center text-center">
                                     <h4 class="text-white">{{ $featuredThread->title }}</h4>
 
