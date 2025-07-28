@@ -172,7 +172,7 @@ class DashboardController extends Controller
 
 
         // get learning hub threads
-        $threads = $this->featuredThreadService->getTestYourKnowledgeWithFilters($perPage, $filters, false);
+        $threads = $this->featuredThreadService->getTestYourKnowledgeWithFilters($perPage, $filters);
         
         return view('admin.knowledge', 
          [
@@ -217,7 +217,7 @@ class DashboardController extends Controller
 
 
         // get learning hub threads
-        $threads = $this->featuredThreadService->getSelfAssessmentWithFilters($perPage, $filters, false);
+        $threads = $this->featuredThreadService->getSelfAssessmentWithFilters($perPage, $filters);
         
         return view('admin.self-assessment', 
          [
