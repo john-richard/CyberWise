@@ -79,7 +79,7 @@ class FeaturedThreadRepository
      * @param array $filters
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getTestYourKnowledgeWithFilters(int $perPage = 20, array $filters = [])
+    public function getTestYourKnowledgeWithFilters(int $perPage = 20, array $filters = [], $activeOnly = true)
     {
         // Start building the query with prepared statements
         $query = DB::table('featured_threads')
@@ -88,8 +88,11 @@ class FeaturedThreadRepository
             ->join('categories', 'thread_categories.category_id', '=', 'categories.id')
             ->join('users', 'threads.user_id', '=', 'users.id')
             ->where('threads.status', true)
-            ->where('featured_threads.status', true)
             ->where('categories.id', 8); // Test Your Knowledge category
+
+        if($activeOnly) {
+            $query->where('featured_threads.status', true);
+        }
     
         // apply search
         $searchTerm = $filters['search'] ?? '';
@@ -150,7 +153,7 @@ class FeaturedThreadRepository
      * @param array $filters
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getSelfAssessmentWithFilters(int $perPage = 20, array $filters = [])
+    public function getSelfAssessmentWithFilters(int $perPage = 20, array $filters = [], $activeOnly = true)
     {
         // Start building the query with prepared statements
         $query = DB::table('featured_threads')
@@ -159,9 +162,12 @@ class FeaturedThreadRepository
             ->join('categories', 'thread_categories.category_id', '=', 'categories.id')
             ->join('users', 'threads.user_id', '=', 'users.id')
             ->where('threads.status', true)
-            ->where('featured_threads.status', true)
             ->where('categories.id', 9); // Self Assessment category
     
+        if($activeOnly) {
+            $query->where('featured_threads.status', true);
+        }
+
         // apply search
         $searchTerm = $filters['search'] ?? '';
 

@@ -525,14 +525,14 @@ class FeaturedThreadService
         ];
     }  
     
-    public function getTestYourKnowledgeWithFilters(int $perPage = 20, array $filters = [])
+    public function getTestYourKnowledgeWithFilters(int $perPage = 20, array $filters = [], $activeOnly = true)
     {
-        return $this->featuredThreadRepository->getTestYourKnowledgeWithFilters($perPage, $filters);
+        return $this->featuredThreadRepository->getTestYourKnowledgeWithFilters($perPage, $filters, $activeOnly);
     }
 
-    public function getSelfAssessmentWithFilters(int $perPage = 20, array $filters = [])
+    public function getSelfAssessmentWithFilters(int $perPage = 20, array $filters = [], $activeOnly = true)
     {
-        return $this->featuredThreadRepository->getSelfAssessmentWithFilters($perPage, $filters);
+        return $this->featuredThreadRepository->getSelfAssessmentWithFilters($perPage, $filters, $activeOnly);
     }    
 
     public function submitKnowledgeTest(array $data)
